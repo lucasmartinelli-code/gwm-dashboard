@@ -2,6 +2,9 @@ import { useState, useMemo } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieChart, Pie, Legend, ComposedChart, Line } from "recharts";
 
 const RAW = [
+  { id:"160627095797", payerId:"1268947725", collectorId:"3166103110", date:"28/05/2026 16:37", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
+  { id:"160626345937", payerId:"2564459129", collectorId:"3166103110", date:"28/05/2026 16:33", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
+  { id:"160627095257", payerId:"1394646757", collectorId:"3166103110", date:"28/05/2026 16:31", status:"approved", detail:"accredited", amount:56, method:"master", op:"regular_payment" },
   { id:"160625320157", payerId:"1535370655", collectorId:"3166103110", date:"28/05/2026 16:07", status:"approved", detail:"accredited", amount:56, method:"master", op:"regular_payment" },
   { id:"161412527844", payerId:"1582811130", collectorId:"3166103110", date:"28/05/2026 16:06", status:"approved", detail:"accredited", amount:56, method:"visa", op:"regular_payment" },
   { id:"161412527752", payerId:"1649254098", collectorId:"3166103110", date:"28/05/2026 16:05", status:"approved", detail:"accredited", amount:35, method:"visa", op:"regular_payment" },
@@ -66,7 +69,7 @@ const RAW = [
 ];
 
 const COLLECTOR_ID = "3166103110";
-const LAST_UPDATED = "28/05/2026 18:22";
+const LAST_UPDATED = "28/05/2026 19:00";
 const LAST_TRX     = RAW.length > 0 ? RAW[0].date : "-";
 const METHOD_COLORS = { master:"#3b82f6", visa:"#a855f7", amex:"#10b981" };
 const STATUS_COLORS = { approved:"#22c55e", rejected:"#ef4444", refunded:"#f59e0b" };
