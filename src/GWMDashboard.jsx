@@ -158,7 +158,7 @@ const Tip = ({ active, payload, label, metric }) => {
 export default function GWMDashboard() {
   const [metric,  setMetric]  = useState("qty");
   const [tryLast, setTryLast] = useState(false);
-  const [period,  setPeriod]  = useState("total"); // "total" | "24h" | "hoje"
+  const [period,  setPeriod]  = useState("24h"); // "total" | "24h" | "hoje"
   const [tab,     setTab]     = useState("overview");
 
   // Pipeline: período → user_try_last
