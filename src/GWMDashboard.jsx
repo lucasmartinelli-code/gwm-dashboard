@@ -44,6 +44,8 @@ const RAW = [
 ];
 
 const COLLECTOR_ID = "3166103110";
+const LAST_UPDATED = "28/05/2026 15:05";
+const LAST_TRX     = RAW.length > 0 ? RAW[0].date : "-";
 const METHOD_COLORS = { master:"#3b82f6", visa:"#a855f7", amex:"#10b981" };
 const STATUS_COLORS = { approved:"#22c55e", rejected:"#ef4444", refunded:"#f59e0b" };
 const REJ_COLORS = {
@@ -270,6 +272,16 @@ export default function GWMDashboard() {
           <div>
             <div style={{ fontSize:15, fontWeight:700, color:"#f1f5f9", letterSpacing:".06em" }}>GWM · DASHBOARD ANALÍTICO</div>
             <div style={{ fontSize:9, color:"#334155", letterSpacing:".12em" }}>SELLER 3166103110 · MLB · {periodLabel}</div>
+            <div style={{ display:"flex", gap:8, marginTop:5, flexWrap:"wrap" }}>
+              <div style={{ display:"flex", alignItems:"center", gap:4, background:"#0a1a0a", border:"1px solid #14532d", borderRadius:4, padding:"2px 7px" }}>
+                <span style={{ width:5, height:5, borderRadius:"50%", background:"#22c55e", display:"inline-block" }} />
+                <span style={{ fontSize:8, color:"#86efac", letterSpacing:".1em" }}>ÚLTIMA TRX: {LAST_TRX}</span>
+              </div>
+              <div style={{ display:"flex", alignItems:"center", gap:4, background:"#0a0f1a", border:"1px solid #1e3a5f", borderRadius:4, padding:"2px 7px" }}>
+                <span style={{ fontSize:9, lineHeight:1 }}>&#x21bb;</span>
+                <span style={{ fontSize:8, color:"#93c5fd", letterSpacing:".1em" }}>ATUALIZADO: {LAST_UPDATED}</span>
+              </div>
+            </div>
           </div>
         </div>
 
