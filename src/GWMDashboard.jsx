@@ -357,21 +357,84 @@ export default function GWMDashboard() {
               </div>
 
               <div className="card" style={{ padding:"14px 16px" }}>
-                <div style={{ fontSize:9, color:"#475569", letterSpacing:".12em", marginBottom:12 }}>MIX DE BANDEIRAS · {metric==="qty"?"QTD":"R$"}</div>
-                {methodData.map(({ name, qty, brl:b, share }) => (
-                  <div key={name} style={{ marginBottom:11 }}>
-                    <div style={{ display:"flex", justifyContent:"space-between", fontSize:11, marginBottom:3 }}>
-                      <span style={{ color:"#94a3b8", textTransform:"capitalize" }}>{name}</span>
-                      <span style={{ color:METHOD_COLORS[name]||"#64748b", fontWeight:600 }}>
-                        {metric==="qty"?`${qty} txns`:brl(b)} · {share}%
-                      </span>
+                <div style={{ fontSize:9, color:"#475569", letterSpacing:".12em", marginBottom:14 }}>MIX DE BANDEIRAS · {metric==="qty"?"QTD":"R$"}</div>
+                {methodData.map(({ name, qty, brl:b, share }) => {
+                  const ms   = data.filter(r => r.method === name);
+                  const ma   = ms.filter(r => r.status === "approved");
+                  const volMs = ms.reduce((s,r)=>s+r.amount,0);
+                  const volMa = ma.reduce((s,r)=>s+r.amount,0);
+                  const aproM = metric==="qty" ? pct(ma.length,ms.length) : pct(volMa,volMs);
+                  const col   = METHOD_COLORS[name]||"#64748b";
+                  return (
+                    <div key={name} style={{ marginBottom:14 }}>
+                      <div style={{ display:"flex", justifyContent:"space-between", fontSize:11, marginBottom:4 }}>
+                        <span style={{ color:"#f1f5f9", textTransform:"capitalize", fontWeight:600 }}>{name}</span>
+                        <span style={{ color:col, fontWeight:600 }}>{metric==="qty"?`${qty} txns`:brl(b)} · {share}%</span>
+                      </div>
+                      <div style={{ background:"#1e293b", borderRadius:3, height:4, marginBottom:6 }}>
+                        <div style={{ width:`${share}%`, height:"100%", background:col, borderRadius:3, transition:"width 1s" }} />
+                      </div>
+                      <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+                        <span style={{ fontSize:10, color:"#475569" }}>Aprovação</span>
+                        <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+                          <div style={{ width:80, background:"#1e293b", borderRadius:3, height:4 }}>
+                            <div style={{ width:`${aproM}%`, height:"100%", borderRadius:3, transition:"width 1s",
+                              background: aproM>=75?"#22c55e":aproM>=50?"#f59e0b":"#ef4444" }} />
+                          </div>
+                          <span style={{ fontSize:11, fontWeight:700, minWidth:38, textAlign:"right",
+                            color: aproM>=75?"#22c55e":aproM>=50?"#f59e0b":"#ef4444" }}>{aproM}%</span>
+                        </div>
+                      </div>
                     </div>
-                    <div style={{ background:"#1e293b", borderRadius:3, height:5 }}>
-                      <div style={{ width:`${share}%`, height:"100%", background:METHOD_COLORS[name]||"#64748b", borderRadius:3, transition:"width 1s" }} />
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
+            </div>
+
+            {/* ── Mix de Pagamentos (Operation Type) ── */}
+            <div className="card" style={{ padding:"14px 16px" }}>
+              <div style={{ fontSize:9, color:"#475569", letterSpacing:".12em", marginBottom:14 }}>MIX DE PAGAMENTOS · {metric==="qty"?"QTD":"R$"}</div>
+              {(() => {
+                const opMap = {};
+                data.forEach(r => {
+                  if (!opMap[r.op]) opMap[r.op] = { qty:0, brl:0, apro_qty:0, apro_brl:0 };
+                  opMap[r.op].qty++;
+                  opMap[r.op].brl += r.amount;
+                  if (r.status==="approved") { opMap[r.op].apro_qty++; opMap[r.op].apro_brl += r.amount; }
+                });
+                const opColors = { regular_payment:"#3b82f6", recurring_payment:"#a855f7" };
+                const opLabels = { regular_payment:"Regular", recurring_payment:"Recorrente" };
+                return Object.entries(opMap)
+                  .sort((a,b) => b[1][metric] - a[1][metric])
+                  .map(([op, v]) => {
+                    const shareOp = pct(metric==="qty"?v.qty:v.brl, metric==="qty"?total:volTotal);
+                    const aproOp  = metric==="qty" ? pct(v.apro_qty,v.qty) : pct(v.apro_brl,v.brl);
+                    const col     = opColors[op]||"#10b981";
+                    const label   = opLabels[op]||op.replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase());
+                    return (
+                      <div key={op} style={{ marginBottom:14 }}>
+                        <div style={{ display:"flex", justifyContent:"space-between", fontSize:11, marginBottom:4 }}>
+                          <span style={{ color:"#f1f5f9", fontWeight:600 }}>{label}</span>
+                          <span style={{ color:col, fontWeight:600 }}>{metric==="qty"?`${v.qty} txns`:brl(v.brl)} · {shareOp}%</span>
+                        </div>
+                        <div style={{ background:"#1e293b", borderRadius:3, height:4, marginBottom:6 }}>
+                          <div style={{ width:`${shareOp}%`, height:"100%", background:col, borderRadius:3, transition:"width 1s" }} />
+                        </div>
+                        <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+                          <span style={{ fontSize:10, color:"#475569" }}>Aprovação</span>
+                          <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+                            <div style={{ width:80, background:"#1e293b", borderRadius:3, height:4 }}>
+                              <div style={{ width:`${aproOp}%`, height:"100%", borderRadius:3, transition:"width 1s",
+                                background: aproOp>=75?"#22c55e":aproOp>=50?"#f59e0b":"#ef4444" }} />
+                            </div>
+                            <span style={{ fontSize:11, fontWeight:700, minWidth:38, textAlign:"right",
+                              color: aproOp>=75?"#22c55e":aproOp>=50?"#f59e0b":"#ef4444" }}>{aproOp}%</span>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  });
+              })()}
             </div>
 
             {/* ── Rejeições (antes era aba separada) ── */}
