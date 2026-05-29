@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieChart, Pie, Legend, ComposedChart, Line } from "recharts";
 
 const RAW = [
+  { id:"160702575555", payerId:"1552810705", collectorId:"3166103110", date:"29/05/2026 07:50", status:"approved", detail:"accredited", amount:350, method:"master", op:"regular_payment" },
   { id:"160701315125", payerId:"3435782262", collectorId:"3166103110", date:"29/05/2026 07:26", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
   { id:"161489774008", payerId:"1752688746", collectorId:"3166103110", date:"29/05/2026 07:19", status:"approved", detail:"accredited", amount:35, method:"visa", op:"regular_payment" },
   { id:"161489249968", payerId:"1368596519", collectorId:"3166103110", date:"29/05/2026 07:12", status:"rejected", detail:"cc_rejected_high_risk", amount:35, method:"master", op:"regular_payment" },
@@ -116,7 +117,7 @@ const RAW = [
 ];
 
 const COLLECTOR_ID = "3166103110";
-const LAST_UPDATED = "29/05/2026 09:06";
+const LAST_UPDATED = "29/05/2026 10:00";
 const LAST_TRX     = RAW.length > 0 ? RAW[0].date : "-";
 const METHOD_COLORS = { master:"#3b82f6", visa:"#a855f7", amex:"#10b981" };
 const STATUS_COLORS = { approved:"#22c55e", rejected:"#ef4444", refunded:"#f59e0b" };
