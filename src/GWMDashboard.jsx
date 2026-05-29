@@ -2,6 +2,11 @@ import { useState, useMemo } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieChart, Pie, Legend, ComposedChart, Line } from "recharts";
 
 const RAW = [
+  { id:"161598117724", payerId:"1430238426", collectorId:"3166103110", date:"29/05/2026 18:15", status:"approved", detail:"accredited", amount:35, method:"visa", op:"regular_payment" },
+  { id:"161598226404", payerId:"1515872190", collectorId:"3166103110", date:"29/05/2026 18:02", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
+  { id:"160804769359", payerId:"1515872190", collectorId:"3166103110", date:"29/05/2026 17:59", status:"rejected", detail:"cc_rejected_card_disabled", amount:35, method:"visa", op:"regular_payment" },
+  { id:"161597028184", payerId:"3437117036", collectorId:"3166103110", date:"29/05/2026 17:55", status:"approved", detail:"accredited", amount:350, method:"visa", op:"regular_payment" },
+  { id:"161593661974", payerId:"1783475642", collectorId:"3166103110", date:"29/05/2026 17:52", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
   { id:"160795187633", payerId:"1520710345", collectorId:"3166103110", date:"29/05/2026 17:16", status:"approved", detail:"accredited", amount:350, method:"master", op:"regular_payment" },
   { id:"160797158187", payerId:"1647625714", collectorId:"3166103110", date:"29/05/2026 17:13", status:"approved", detail:"accredited", amount:56, method:"master", op:"regular_payment" },
   { id:"161583840950", payerId:"1650450719", collectorId:"3166103110", date:"29/05/2026 16:57", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
@@ -180,7 +185,7 @@ const RAW = [
 ];
 
 const COLLECTOR_ID = "3166103110";
-const LAST_UPDATED = "29/05/2026 19:00";
+const LAST_UPDATED = "29/05/2026 20:00";
 const LAST_TRX     = RAW.length > 0 ? RAW[0].date : "-";
 const METHOD_COLORS = { master:"#3b82f6", visa:"#a855f7", amex:"#10b981" };
 const STATUS_COLORS = { approved:"#22c55e", rejected:"#ef4444", refunded:"#f59e0b" };
