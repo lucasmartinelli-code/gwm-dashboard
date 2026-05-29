@@ -316,10 +316,13 @@ export default function GWMDashboard() {
 
   const timelineMap = {};
   data.forEach(r => {
+    const [datePart, timePart] = r.date.split(" ");
+    const hour = timePart.split(":")[0] + "h";
+    // 24h: chave inclui data para evitar colisão entre mesma hora em dias diferentes
     const key = timelineByHour
-      ? r.date.split(" ")[1].split(":")[0] + "h"
-      : r.date.split(" ")[0]; // dd/mm/yyyy
-    if (!timelineMap[key]) timelineMap[key] = { key, apro_qty:0, rej_qty:0, apro_brl:0, rej_brl:0, tot_qty:0, tot_brl:0 };
+      ? (period === "24h" ? datePart.slice(0, 5) + " " + hour : hour)
+      : datePart;
+    if (!timelineMap[key]) timelineMap[key] = { key, _sortTs: parseDate(r.date).getTime(), apro_qty:0, rej_qty:0, apro_brl:0, rej_brl:0, tot_qty:0, tot_brl:0 };
     timelineMap[key].tot_qty++;
     timelineMap[key].tot_brl += r.amount;
     if (r.status === "approved") { timelineMap[key].apro_qty++; timelineMap[key].apro_brl += r.amount; }
@@ -327,7 +330,7 @@ export default function GWMDashboard() {
   });
 
   const hourData = Object.values(timelineMap)
-    .sort((a, b) => a.key < b.key ? -1 : 1)
+    .sort((a, b) => a._sortTs - b._sortTs)
     .map(h => ({
       label: h.key,
       Aprovadas:  metric === "qty" ? h.apro_qty : h.apro_brl,
@@ -338,10 +341,12 @@ export default function GWMDashboard() {
   // Recusas empilhadas + linha
   const hourRejMap = {};
   data.forEach(r => {
+    const [datePart, timePart] = r.date.split(" ");
+    const hour = timePart.split(":")[0] + "h";
     const key = timelineByHour
-      ? r.date.split(" ")[1].split(":")[0] + "h"
-      : r.date.split(" ")[0];
-    if (!hourRejMap[key]) hourRejMap[key] = { key, _tot_qty:0, _apro_qty:0, _tot_brl:0, _apro_brl:0 };
+      ? (period === "24h" ? datePart.slice(0, 5) + " " + hour : hour)
+      : datePart;
+    if (!hourRejMap[key]) hourRejMap[key] = { key, _sortTs: parseDate(r.date).getTime(), _tot_qty:0, _apro_qty:0, _tot_brl:0, _apro_brl:0 };
     hourRejMap[key]._tot_qty++;
     hourRejMap[key]._tot_brl += r.amount;
     if (r.status === "approved") { hourRejMap[key]._apro_qty++; hourRejMap[key]._apro_brl += r.amount; }
@@ -351,7 +356,7 @@ export default function GWMDashboard() {
     }
   });
   const hourRejData = Object.values(hourRejMap)
-    .sort((a, b) => a.key < b.key ? -1 : 1)
+    .sort((a, b) => a._sortTs - b._sortTs)
     .map(h => {
       const tot  = metric === "qty" ? h._tot_qty  : h._tot_brl;
       const apro = metric === "qty" ? h._apro_qty : h._apro_brl;
