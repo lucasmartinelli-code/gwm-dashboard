@@ -2,6 +2,11 @@ import { useState, useMemo } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieChart, Pie, Legend, ComposedChart, Line } from "recharts";
 
 const RAW = [
+  { id:"161618226878", payerId:"1663752200", collectorId:"3166103110", date:"29/05/2026 19:49", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
+  { id:"160826910879", payerId:"1176801493", collectorId:"3166103110", date:"29/05/2026 19:47", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
+  { id:"161615985458", payerId:"1176801493", collectorId:"3166103110", date:"29/05/2026 19:42", status:"rejected", detail:"cc_rejected_bad_filled_security_code", amount:56, method:"master", op:"regular_payment" },
+  { id:"161616334366", payerId:"1546692678", collectorId:"3166103110", date:"29/05/2026 19:32", status:"approved", detail:"accredited", amount:35, method:"visa", op:"regular_payment" },
+  { id:"160822251293", payerId:"1602060433", collectorId:"3166103110", date:"29/05/2026 19:26", status:"approved", detail:"accredited", amount:35, method:"visa", op:"regular_payment" },
   { id:"160818520497", payerId:"1754137196", collectorId:"3166103110", date:"29/05/2026 18:58", status:"approved", detail:"accredited", amount:35, method:"elo", op:"regular_payment" },
   { id:"160812882029", payerId:"1541365076", collectorId:"3166103110", date:"29/05/2026 18:46", status:"approved", detail:"accredited", amount:35, method:"visa", op:"regular_payment" },
   { id:"160811660069", payerId:"1632664578", collectorId:"3166103110", date:"29/05/2026 18:41", status:"approved", detail:"accredited", amount:35, method:"visa", op:"regular_payment" },
@@ -189,7 +194,7 @@ const RAW = [
 ];
 
 const COLLECTOR_ID = "3166103110";
-const LAST_UPDATED = "29/05/2026 21:00";
+const LAST_UPDATED = "29/05/2026 22:00";
 const LAST_TRX     = RAW.length > 0 ? RAW[0].date : "-";
 const METHOD_COLORS = { master:"#3b82f6", visa:"#a855f7", amex:"#10b981" };
 const STATUS_COLORS = { approved:"#22c55e", rejected:"#ef4444", refunded:"#f59e0b" };
