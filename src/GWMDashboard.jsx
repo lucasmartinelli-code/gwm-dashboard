@@ -2,6 +2,14 @@ import { useState, useMemo } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieChart, Pie, Legend, ComposedChart, Line } from "recharts";
 
 const RAW = [
+  { id:"162006545786", payerId:"1921888277", collectorId:"3166103110", date:"01/06/2026 14:30", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
+  { id:"162006369530", payerId:"1355061567", collectorId:"3166103110", date:"01/06/2026 14:27", status:"approved", detail:"accredited", amount:35, method:"visa", op:"regular_payment" },
+  { id:"162006067226", payerId:"1988516311", collectorId:"3166103110", date:"01/06/2026 14:22", status:"approved", detail:"accredited", amount:56, method:"master", op:"regular_payment" },
+  { id:"161999485840", payerId:"2364142705", collectorId:"3166103110", date:"01/06/2026 13:45", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
+  { id:"161999131924", payerId:"1618360334", collectorId:"3166103110", date:"01/06/2026 13:44", status:"approved", detail:"accredited", amount:350, method:"master", op:"regular_payment" },
+  { id:"161203325827", payerId:"1735291438", collectorId:"3166103110", date:"01/06/2026 13:29", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
+  { id:"161203239507", payerId:"1513256565", collectorId:"3166103110", date:"01/06/2026 13:26", status:"approved", detail:"accredited", amount:350, method:"master", op:"regular_payment" },
+  { id:"161992663276", payerId:"1750528806", collectorId:"3166103110", date:"01/06/2026 12:58", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
   { id:"161986307514", payerId:"1581214845", collectorId:"3166103110", date:"01/06/2026 12:21", status:"approved", detail:"accredited", amount:350, method:"visa", op:"regular_payment" },
   { id:"161189859275", payerId:"1499913649", collectorId:"3166103110", date:"01/06/2026 12:04", status:"approved", detail:"accredited", amount:56, method:"master", op:"regular_payment" },
   { id:"161188916465", payerId:"1624621609", collectorId:"3166103110", date:"01/06/2026 11:53", status:"approved", detail:"accredited", amount:35, method:"visa", op:"regular_payment" },
@@ -324,7 +332,7 @@ const RAW = [
 ];
 
 const COLLECTOR_ID = "3166103110";
-const LAST_UPDATED = "01/06/2026 17:00";
+const LAST_UPDATED = "01/06/2026 18:00";
 const LAST_TRX     = RAW.length > 0 ? RAW[0].date : "-";
 const METHOD_COLORS = { master:"#3b82f6", visa:"#a855f7", amex:"#10b981" };
 const STATUS_COLORS = { approved:"#22c55e", rejected:"#ef4444", refunded:"#f59e0b" };
