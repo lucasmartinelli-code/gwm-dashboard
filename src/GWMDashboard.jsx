@@ -355,9 +355,9 @@ function brl(v)    { return `R$ ${v.toLocaleString("pt-BR", { minimumFractionDig
 
 // Dia mais recente da base
 const LATEST_DATE = RAW.reduce((max, r) => {
-  const d = r.date.split(" ")[0];
-  return d > max ? d : max;
-}, "");
+  const ts = parseDate(r.date).getTime();
+  return ts > max.ts ? { d: r.date.split(" ")[0], ts } : max;
+}, { d: "", ts: 0 }).d;
 
 // user_try_last: janela 24h rolante
 function applyUserTryLast(rows) {
