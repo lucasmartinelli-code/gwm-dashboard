@@ -669,7 +669,7 @@ export default function GWMDashboard() {
   // Estado da aba Boleto & Pix (no header quando tab === "boletopix")
   const [bpPeriod, setBpPeriod] = useState("30d");
   const [bpSeller, setBpSeller] = useState("all");
-  const [bpMetodo, setBpMetodo] = useState("all");
+  const [bpMetodo, setBpMetodo] = useState("bolbradesco");
   const [bpMetric, setBpMetric] = useState("qty");
 
   // Pipeline: período → user_try_last
