@@ -387,7 +387,7 @@ const RAW = [
 ];
 
 const COLLECTOR_ID = "3166103110";
-const LAST_UPDATED = "03/06/2026 08:11";
+const LAST_UPDATED = "03/06/2026 09:12";
 const LAST_TRX     = RAW.length > 0 ? RAW[0].date : "-";
 const METHOD_COLORS = { master:"#3b82f6", visa:"#a855f7", amex:"#10b981" };
 const STATUS_COLORS = { approved:"#22c55e", rejected:"#ef4444", refunded:"#f59e0b" };
