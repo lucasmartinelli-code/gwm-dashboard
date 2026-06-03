@@ -493,6 +493,7 @@ const Tip = ({ active, payload, label, metric }) => {
 };
 
 // ── BOLETO & PIX ──────────────────────────────────────────────────────────
+let bpAnimDone = false; // persiste entre remontagens — animação roda só 1 vez
 const BP_DETAILS = ["expired","rejected_high_risk","pending_waiting_payment","pending_waiting_transfer","refunded"];
 const BP_COLORS  = { expired:"#ef4444", rejected_high_risk:"#7c3aed", pending_waiting_payment:"#f59e0b", pending_waiting_transfer:"#fb923c", refunded:"#3b82f6" };
 const BP_MONTHS  = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
@@ -592,27 +593,26 @@ function BoletoPixTab({ bpPeriod, bpSeller, bpMetodo, bpMetric }) {
   }, [periodRows, bpMetric]);
 
   // ── Animação da linha (carrinho) ──────────────────────────────────────
-  const [animVis, setAnimVis] = useState(1);
+  const [animVis, setAnimVis] = useState(bpAnimDone ? 1 : 0);
   const [carOn,   setCarOn]   = useState(false);
   const rafRef = useRef(null);
   const t0Ref  = useRef(null);
   const ANIM_DURATION = 2200;
 
   useEffect(() => {
-    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    if (bpAnimDone) return; // só anima uma vez — na primeira abertura da aba
     t0Ref.current = null;
     setCarOn(true);
-    setAnimVis(0);
     function step(now) {
       if (!t0Ref.current) t0Ref.current = now;
       const p = Math.min((now - t0Ref.current) / ANIM_DURATION, 1);
       setAnimVis(p);
       if (p < 1) { rafRef.current = requestAnimationFrame(step); }
-      else        { setCarOn(false); }
+      else        { bpAnimDone = true; setCarOn(false); }
     }
     const tid = setTimeout(() => { rafRef.current = requestAnimationFrame(step); }, 100);
     return () => { clearTimeout(tid); if (rafRef.current) cancelAnimationFrame(rafRef.current); };
-  }, [chartData]);
+  }, []); // [] = só na montagem inicial
 
   const visibleChartData = useMemo(() => {
     const n = chartData.length;
