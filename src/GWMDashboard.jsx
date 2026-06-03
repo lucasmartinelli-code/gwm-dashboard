@@ -930,7 +930,8 @@ export default function GWMDashboard() {
 
         {/* Grupo: Credit Card */}
         <div style={{ display:"flex", flexDirection:"column", gap:3 }}>
-          <div style={{ display:"flex", alignItems:"center", gap:5, background:"#0a0f1a", border:"1px solid #1e3a5f", borderRadius:4, padding:"2px 8px", width:"fit-content" }}>
+          {/* badge estica para cobrir toda a largura do container de tabs */}
+          <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:5, background:"#0a0f1a", border:"1px solid #1e3a5f", borderRadius:4, padding:"2px 8px" }}>
             <span style={{ fontSize:9 }}>💳</span>
             <span style={{ fontSize:8, color:"#93c5fd", letterSpacing:".12em", fontWeight:600 }}>CREDIT CARD</span>
           </div>
@@ -945,8 +946,8 @@ export default function GWMDashboard() {
         </div>
 
         {/* Grupo: Ticket & Bank Transfer */}
-        <div style={{ display:"flex", flexDirection:"column", gap:3 }}>
-          <div style={{ display:"flex", alignItems:"center", gap:5, background:"#0a1a0a", border:"1px solid #14532d", borderRadius:4, padding:"2px 8px", width:"fit-content" }}>
+        <div style={{ display:"flex", flexDirection:"column", gap:3, alignItems:"center" }}>
+          <div style={{ display:"flex", alignItems:"center", gap:5, background:"#0a1a0a", border:"1px solid #14532d", borderRadius:4, padding:"2px 8px" }}>
             <span style={{ fontSize:9 }}>🧾</span>
             <span style={{ fontSize:8, color:"#86efac", letterSpacing:".12em", fontWeight:600 }}>TICKET & BANK_TRANSFER</span>
           </div>
