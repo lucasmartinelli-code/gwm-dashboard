@@ -654,7 +654,7 @@ function BoletoPixTab({ bpPeriod, bpSeller, bpMetodo, bpMetric }) {
       <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(150px,1fr))", gap:10, marginBottom:14 }}>
         {kpiCard("TOTAL EMITIDO",    kpis.tot,  null,            "#e2e8f0")}
         {kpiCard("% APROVAÇÃO",      kpis.rate+"%", kpis.lbl,   "#ffffff")}
-        {kpiCard("TPV APROVADO",     kpis.tpv,  "accredited",   "#22c55e")}
+        {kpiCard(bpMetric==="brl" ? "TPV APROVADO" : "TPN APROVADO", kpis.tpv, "accredited", "#22c55e")}
         {kpiCard("EXPIRADOS",        kpis.exp,  "expired",      "#ef4444")}
         {kpiCard("PENDENTES",        kpis.pend, "pending_*",    "#f59e0b")}
         {kpiCard("HIGH RISK (PF)",   kpis.risk, "rejected",     "#7c3aed")}
@@ -742,12 +742,12 @@ export default function GWMDashboard() {
   const [metric,  setMetric]  = useState("qty");
   const [tryLast, setTryLast] = useState(false);
   const [period,  setPeriod]  = useState("24h"); // "total" | "24h" | "hoje"
-  const [tab,     setTab]     = useState("overview");
+  const [tab,     setTab]     = useState("boletopix");
   // Estado da aba Boleto & Pix (no header quando tab === "boletopix")
   const [bpPeriod, setBpPeriod] = useState("30d");
   const [bpSeller, setBpSeller] = useState("all");
   const [bpMetodo, setBpMetodo] = useState("bolbradesco");
-  const [bpMetric, setBpMetric] = useState("qty");
+  const [bpMetric, setBpMetric] = useState("brl");
 
   // Pipeline: período → user_try_last
   const data = useMemo(() => {
