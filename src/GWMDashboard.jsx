@@ -862,6 +862,35 @@ export default function GWMDashboard() {
       return row;
     });
 
+  // ── Animação da linha de aprovação no Timeline ────────────────────────
+  const [tlVis, setTlVis] = useState(1);
+  const [tlCar, setTlCar] = useState(false);
+  const tlRaf = useRef(null);
+  const tlT0  = useRef(null);
+  const TL_DURATION = 2200;
+
+  useEffect(() => {
+    if (tlRaf.current) cancelAnimationFrame(tlRaf.current);
+    tlT0.current = null;
+    setTlCar(true);
+    setTlVis(0);
+    function step(now) {
+      if (!tlT0.current) tlT0.current = now;
+      const p = Math.min((now - tlT0.current) / TL_DURATION, 1);
+      setTlVis(p);
+      if (p < 1) { tlRaf.current = requestAnimationFrame(step); }
+      else        { setTlCar(false); }
+    }
+    const tid = setTimeout(() => { tlRaf.current = requestAnimationFrame(step); }, 100);
+    return () => { clearTimeout(tid); if (tlRaf.current) cancelAnimationFrame(tlRaf.current); };
+  }, [hourRejData]);
+
+  const visHourRejData = useMemo(() => {
+    const n   = hourRejData.length;
+    const vis = Math.ceil(tlVis * n);
+    return hourRejData.map((d, i) => ({ ...d, "Aprovação": i < vis ? d["Aprovação"] : null }));
+  }, [hourRejData, tlVis]);
+
   const periodLabel = period === "total" ? "TOTAL" : period === "hoje" ? `HOJE (${LATEST_DATE})` : "ÚLTIMAS 24H";
 
   return (
@@ -1231,7 +1260,7 @@ export default function GWMDashboard() {
                 RECUSAS POR MOTIVO + TAXA DE APROVAÇÃO · {timelineByHour?"POR HORA":"POR DIA"} · {metric==="qty"?"QUANTIDADE":"VALOR R$"}
               </div>
               <ResponsiveContainer width="100%" height={230}>
-                <ComposedChart data={hourRejData} margin={{ left:0, right:44 }}>
+                <ComposedChart data={visHourRejData} margin={{ left:0, right:44 }}>
                   <XAxis dataKey="label" tick={{ fontSize:10, fill:"#475569" }} />
                   <YAxis yAxisId="left"  tick={{ fontSize:10, fill:"#475569" }} />
                   <YAxis yAxisId="right" orientation="right" tick={{ fontSize:10, fill:"#94a3b8" }} tickFormatter={v=>`${v}%`} domain={[0,100]} />
@@ -1254,7 +1283,23 @@ export default function GWMDashboard() {
                       radius={i===allRejCodes.length-1?[3,3,0,0]:[0,0,0,0]} />
                   ))}
                   <Line yAxisId="right" type="monotone" dataKey="Aprovação"
-                    stroke="#60a5fa" strokeWidth={2.5} dot={{ fill:"#60a5fa", r:4 }} />
+                    stroke="#60a5fa" strokeWidth={2.5} isAnimationActive={false} connectNulls={false}
+                    dot={(props) => {
+                      const { cx, cy, index, value } = props;
+                      if (value == null) return <g key={index} />;
+                      if (tlCar) {
+                        const lastIdx = visHourRejData.reduce((last, d, i) => d["Aprovação"] != null ? i : last, -1);
+                        if (index === lastIdx) {
+                          return (
+                            <g key={index} transform={`translate(${cx + 20}, ${cy - 20}) scale(-1, 1)`}>
+                              <text fontSize="32" textAnchor="middle" dominantBaseline="middle">🚗</text>
+                            </g>
+                          );
+                        }
+                        return <g key={index} />;
+                      }
+                      return <circle key={index} cx={cx} cy={cy} r={4} fill="#60a5fa" stroke="none" />;
+                    }} />
                   <Legend formatter={v => <span style={{ fontSize:10, color:"#94a3b8" }}>{v}</span>} />
                 </ComposedChart>
               </ResponsiveContainer>
