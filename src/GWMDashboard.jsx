@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieChart, Pie, Legend, ComposedChart, Line, CartesianGrid, LabelList } from "recharts";
 import { RAW_BP, BP_UPDATED } from "./GWMBoletoPixData";
 
@@ -591,6 +591,35 @@ function BoletoPixTab({ bpPeriod, bpSeller, bpMetodo, bpMetric }) {
     });
   }, [periodRows, bpMetric]);
 
+  // ── Animação da linha (carrinho) ──────────────────────────────────────
+  const [animVis, setAnimVis] = useState(1);
+  const [carOn,   setCarOn]   = useState(false);
+  const rafRef = useRef(null);
+  const t0Ref  = useRef(null);
+  const ANIM_DURATION = 2200;
+
+  useEffect(() => {
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    t0Ref.current = null;
+    setCarOn(true);
+    setAnimVis(0);
+    function step(now) {
+      if (!t0Ref.current) t0Ref.current = now;
+      const p = Math.min((now - t0Ref.current) / ANIM_DURATION, 1);
+      setAnimVis(p);
+      if (p < 1) { rafRef.current = requestAnimationFrame(step); }
+      else        { setCarOn(false); }
+    }
+    const tid = setTimeout(() => { rafRef.current = requestAnimationFrame(step); }, 100);
+    return () => { clearTimeout(tid); if (rafRef.current) cancelAnimationFrame(rafRef.current); };
+  }, [chartData]);
+
+  const visibleChartData = useMemo(() => {
+    const n = chartData.length;
+    const vis = Math.ceil(animVis * n);
+    return chartData.map((d, i) => ({ ...d, aproPct: i < vis ? d.aproPct : null }));
+  }, [chartData, animVis]);
+
   const subtitle = useMemo(() => {
     const [y,mo,d] = maxDate.split("-");
     const maxStr = `${d}/${mo}/${y}`;
@@ -634,7 +663,7 @@ function BoletoPixTab({ bpPeriod, bpSeller, bpMetodo, bpMetric }) {
           BARRAS = % NÃO APROVADO (expired · pending · rejected) · LINHA BRANCA = % APROVAÇÃO
         </div>
         <ResponsiveContainer width="100%" height={320}>
-          <ComposedChart data={chartData} margin={{ top:24, right:16, left:4, bottom:4 }}>
+          <ComposedChart data={visibleChartData} margin={{ top:24, right:16, left:4, bottom:4 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
             <XAxis dataKey="label" tick={{ fontSize:9, fill:"#475569", fontFamily:"IBM Plex Mono" }} axisLine={false} tickLine={false} />
             <YAxis domain={[0,100]} tick={{ fontSize:9, fill:"#475569", fontFamily:"IBM Plex Mono" }} tickFormatter={v=>`${v}%`} axisLine={false} tickLine={false} width={36} />
@@ -664,7 +693,25 @@ function BoletoPixTab({ bpPeriod, bpSeller, bpMetodo, bpMetric }) {
             {BP_DETAILS.map(x => (
               <Bar key={x} dataKey={x} stackId="a" fill={BP_COLORS[x]} isAnimationActive={false} maxBarSize={36} />
             ))}
-            <Line type="monotone" dataKey="aproPct" stroke="#ffffff" strokeWidth={2} dot={{ r:3, fill:"#ffffff", strokeWidth:0 }} isAnimationActive={false}>
+            <Line type="monotone" dataKey="aproPct" stroke="#ffffff" strokeWidth={2} isAnimationActive={false} connectNulls={false}
+              dot={(props) => {
+                const { cx, cy, index, value } = props;
+                if (value == null) return <g key={index} />;
+                // durante animação: mostra carrinho na ponta, sem dots nos outros pontos
+                if (carOn) {
+                  const lastIdx = visibleChartData.reduce((last, d, i) => d.aproPct != null ? i : last, -1);
+                  if (index === lastIdx) {
+                    return (
+                      <g key={index} transform={`translate(${cx + 20}, ${cy - 20}) scale(-1, 1)`}>
+                        <text fontSize="32" textAnchor="middle" dominantBaseline="middle">🚗</text>
+                      </g>
+                    );
+                  }
+                  return <g key={index} />;
+                }
+                // animação concluída: dots brancos normais
+                return <circle key={index} cx={cx} cy={cy} r={3} fill="#ffffff" stroke="none" />;
+              }}>
               <LabelList dataKey="aproPct" position="top" style={{ fill:"#ffffff", fontSize:11, fontWeight:"bold", fontFamily:"IBM Plex Mono" }} formatter={v => v != null ? `${Math.round(v)}%` : ""} />
             </Line>
           </ComposedChart>
