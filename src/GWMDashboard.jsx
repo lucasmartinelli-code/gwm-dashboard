@@ -926,18 +926,37 @@ export default function GWMDashboard() {
       </div>
 
       {/* ── TABS ── */}
-      <div style={{ display:"flex", gap:4, marginBottom:16, background:"#0f172a", borderRadius:7, padding:4, width:"fit-content", border:"1px solid #1e293b" }}>
-        {[["overview","VISÃO GERAL"],["timeline","TIMELINE"],["transacoes","TRANSAÇÕES"]].map(([k,l]) => (
-          <button key={k} className="tbtn" onClick={() => setTab(k)}
-            style={{ color:tab===k?"#f1f5f9":"#475569", background:tab===k?"#1e3a5f":"none", fontWeight:tab===k?600:400 }}>
-            {l}
-          </button>
-        ))}
-        <div style={{ width:1, height:20, background:"#334155", margin:"0 4px", alignSelf:"center" }} />
-        <button className="tbtn" onClick={() => setTab("boletopix")}
-          style={{ color:tab==="boletopix"?"#f1f5f9":"#64748b", background:tab==="boletopix"?"#1e293b":"none", fontWeight:tab==="boletopix"?600:400, borderRadius:5, border: tab==="boletopix" ? "1px solid #334155" : "1px solid transparent" }}>
-          BOLETO & PIX
-        </button>
+      <div style={{ display:"flex", gap:8, marginBottom:16, alignItems:"flex-start" }}>
+
+        {/* Grupo: Credit Card */}
+        <div style={{ display:"flex", flexDirection:"column", gap:3 }}>
+          <div style={{ display:"flex", alignItems:"center", gap:5, background:"#0a0f1a", border:"1px solid #1e3a5f", borderRadius:4, padding:"2px 8px", width:"fit-content" }}>
+            <span style={{ fontSize:9 }}>💳</span>
+            <span style={{ fontSize:8, color:"#93c5fd", letterSpacing:".12em", fontWeight:600 }}>CREDIT CARD</span>
+          </div>
+          <div style={{ display:"flex", gap:4, background:"#0f172a", borderRadius:7, padding:4, border:"1px solid #1e293b" }}>
+            {[["overview","VISÃO GERAL"],["timeline","TIMELINE"],["transacoes","TRANSAÇÕES"]].map(([k,l]) => (
+              <button key={k} className="tbtn" onClick={() => setTab(k)}
+                style={{ color:tab===k?"#f1f5f9":"#475569", background:tab===k?"#1e3a5f":"none", fontWeight:tab===k?600:400 }}>
+                {l}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Grupo: Ticket & Bank Transfer */}
+        <div style={{ display:"flex", flexDirection:"column", gap:3 }}>
+          <div style={{ display:"flex", alignItems:"center", gap:5, background:"#0a1a0a", border:"1px solid #14532d", borderRadius:4, padding:"2px 8px", width:"fit-content" }}>
+            <span style={{ fontSize:9 }}>🧾</span>
+            <span style={{ fontSize:8, color:"#86efac", letterSpacing:".12em", fontWeight:600 }}>TICKET & BANK_TRANSFER</span>
+          </div>
+          <div style={{ display:"flex", gap:4, background:"#0f172a", borderRadius:7, padding:4, border:"1px solid #1e293b" }}>
+            <button className="tbtn" onClick={() => setTab("boletopix")}
+              style={{ color:tab==="boletopix"?"#f1f5f9":"#64748b", background:tab==="boletopix"?"#1e293b":"none", fontWeight:tab==="boletopix"?600:400, borderRadius:5, border:tab==="boletopix"?"1px solid #334155":"1px solid transparent" }}>
+              BOLETO & PIX
+            </button>
+          </div>
+        </div>
       </div>
 
       <div className="fade" key={tab+metric+tryLast+period}>
