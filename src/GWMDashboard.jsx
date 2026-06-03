@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieChart, Pie, Legend, ComposedChart, Line } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieChart, Pie, Legend, ComposedChart, Line, CartesianGrid, LabelList } from "recharts";
+import { RAW_BP, BP_UPDATED } from "./GWMBoletoPixData";
 
 const RAW = [
   { id:"161527647907", payerId:"1432828768", collectorId:"3166103110", date:"03/06/2026 11:59", status:"rejected", detail:"cc_rejected_call_for_authorize", amount:350, method:"amex", op:"regular_payment" },
@@ -490,6 +491,208 @@ const Tip = ({ active, payload, label, metric }) => {
   );
 };
 
+// ── BOLETO & PIX ──────────────────────────────────────────────────────────
+const BP_DETAILS = ["expired","rejected_high_risk","pending_waiting_payment","pending_waiting_transfer","refunded"];
+const BP_COLORS  = { expired:"#ef4444", rejected_high_risk:"#7c3aed", pending_waiting_payment:"#f59e0b", pending_waiting_transfer:"#fb923c", refunded:"#3b82f6" };
+const BP_MONTHS  = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+
+function fmtBig(v) {
+  if (v >= 1e9) return `R$ ${(v/1e9).toFixed(2)}B`;
+  if (v >= 1e6) return `R$ ${(v/1e6).toFixed(1)}M`;
+  if (v >= 1e3) return `R$ ${(v/1e3).toFixed(0)}K`;
+  return `R$ ${v.toFixed(0)}`;
+}
+
+const BPTip = ({ active, payload, label }) => {
+  if (!active || !payload?.length) return null;
+  const items = payload.filter(p => (p.value || 0) > 0.05).sort((a,b) => b.value - a.value);
+  return (
+    <div style={{ background:"#0f172a", border:"1px solid #334155", borderRadius:7, padding:"10px 14px", fontSize:11, minWidth:200 }}>
+      <div style={{ color:"#64748b", marginBottom:6, fontSize:10 }}>{label}</div>
+      {items.map((p,i) => (
+        <div key={i} style={{ color: p.fill || p.stroke || "#e2e8f0", marginBottom:2 }}>
+          {p.name}: {p.value?.toFixed(1)}%
+        </div>
+      ))}
+    </div>
+  );
+};
+
+function BoletoPixTab() {
+  const [bpPeriod, setBpPeriod] = useState("30d");
+  const [bpSeller, setBpSeller] = useState("all");
+  const [bpMetodo, setBpMetodo] = useState("all");
+  const [bpMetric, setBpMetric] = useState("qty");
+
+  const maxDate = useMemo(() => RAW_BP.reduce((mx,r) => r.f > mx ? r.f : mx, ""), []);
+
+  const baseRows = useMemo(() => {
+    let rows = RAW_BP;
+    if (bpSeller !== "all") rows = rows.filter(r => r.s === bpSeller);
+    if (bpMetodo !== "all") rows = rows.filter(r => r.m === bpMetodo);
+    return rows;
+  }, [bpSeller, bpMetodo]);
+
+  const periodRows = useMemo(() => {
+    if (bpPeriod === "30d") {
+      const dt = new Date(maxDate+"T12:00:00");
+      dt.setDate(dt.getDate()-29);
+      const cut = dt.toISOString().slice(0,10);
+      return baseRows.filter(r => r.f >= cut);
+    }
+    return baseRows.filter(r => r.f >= maxDate.slice(0,7)+"-01");
+  }, [baseRows, bpPeriod, maxDate]);
+
+  const kpis = useMemo(() => {
+    let tQ=0,tB=0,aQ=0,aB=0,eQ=0,eB=0,pQ=0,pB=0,rQ=0,rB=0;
+    periodRows.forEach(r => {
+      tQ+=r.q; tB+=r.b;
+      if (r.si==="approved"||r.si==="refunded") { aQ+=r.q; aB+=r.b; }
+      else if (r.si==="cancelled") { eQ+=r.q; eB+=r.b; }
+      else if (r.si==="pending")   { pQ+=r.q; pB+=r.b; }
+      else if (r.si==="rejected")  { rQ+=r.q; rB+=r.b; }
+    });
+    const isBrl = bpMetric === "brl";
+    const rate  = isBrl ? (tB>0?aB/tB*100:0) : (tQ>0?aQ/tQ*100:0);
+    return {
+      tot:  isBrl ? fmtBig(tB)  : tQ.toLocaleString("pt-BR"),
+      tpv:  isBrl ? fmtBig(aB)  : aQ.toLocaleString("pt-BR"),
+      exp:  isBrl ? fmtBig(eB)  : eQ.toLocaleString("pt-BR"),
+      pend: isBrl ? fmtBig(pB)  : pQ.toLocaleString("pt-BR"),
+      risk: isBrl ? fmtBig(rB)  : rQ.toLocaleString("pt-BR"),
+      asp: `R$ ${Math.round(tQ>0?tB/tQ:0).toLocaleString("pt-BR")}`,
+      rate: rate.toFixed(1),
+      sc:   rate>=75 ? "#22c55e" : rate>=50 ? "#f59e0b" : "#ef4444",
+      lbl:  rate>=75 ? "NORMAL"  : rate>=50 ? "ALERTA"  : "CRÍTICO",
+    };
+  }, [periodRows, bpMetric]);
+
+  const chartData = useMemo(() => {
+    const map = {};
+    periodRows.forEach(r => {
+      if (!map[r.f]) map[r.f] = { _tQ:0,_tB:0,_aQ:0,_aB:0 };
+      map[r.f]._tQ+=r.q; map[r.f]._tB+=r.b;
+      if (r.si==="approved"||r.si==="refunded") { map[r.f]._aQ+=r.q; map[r.f]._aB+=r.b; }
+      map[r.f]["q_"+r.d] = (map[r.f]["q_"+r.d]||0)+r.q;
+      map[r.f]["b_"+r.d] = (map[r.f]["b_"+r.d]||0)+r.b;
+    });
+    return Object.keys(map).sort().map(k => {
+      const d = map[k];
+      const tot = bpMetric==="brl" ? d._tB : d._tQ;
+      const ap  = bpMetric==="brl" ? d._aB : d._aQ;
+      const row = {
+        label: k.slice(5).replace("-","/"),
+        aproPct: tot>0 ? parseFloat((ap/tot*100).toFixed(1)) : null,
+      };
+      BP_DETAILS.forEach(x => {
+        const v = bpMetric==="brl" ? (d["b_"+x]||0) : (d["q_"+x]||0);
+        row[x] = tot>0 ? parseFloat((v/tot*100).toFixed(1)) : 0;
+      });
+      return row;
+    });
+  }, [periodRows, bpMetric]);
+
+  const subtitle = useMemo(() => {
+    const [y,mo,d] = maxDate.split("-");
+    const maxStr = `${d}/${mo}/${y}`;
+    if (bpPeriod === "30d") {
+      const dt = new Date(maxDate+"T12:00:00"); dt.setDate(dt.getDate()-29);
+      const [,cm,cd] = dt.toISOString().slice(0,10).split("-");
+      return `${cd}/${cm} → ${maxStr}`;
+    }
+    return `01/${mo} → ${maxStr}`;
+  }, [bpPeriod, maxDate]);
+
+  const mbtn = (active) => ({ border:"none", cursor:"pointer", fontFamily:"inherit", fontSize:11, fontWeight:700, letterSpacing:".08em", padding:"6px 14px", borderRadius:5, transition:"all .2s", background: active ? "linear-gradient(135deg,#7c3aed,#4f46e5)" : "none", color: active ? "#fff" : "#475569" });
+  const mbtnB = (active) => ({ ...mbtn(false), background: active ? "linear-gradient(135deg,#1d4ed8,#7c3aed)" : "none", color: active ? "#fff" : "#475569" });
+  const kpiCard = (label, val, sub, col) => (
+    <div className="card" style={{ padding:"12px 14px" }}>
+      <div style={{ fontSize:8, color:"#475569", letterSpacing:".12em", marginBottom:6 }}>{label}</div>
+      <div style={{ fontSize:18, fontWeight:700, color:col, letterSpacing:".02em" }}>{val}</div>
+      {sub && <div style={{ fontSize:8, color:col, marginTop:3, opacity:.8 }}>{sub}</div>}
+    </div>
+  );
+
+  return (
+    <div>
+      {/* Filtros */}
+      <div style={{ display:"flex", gap:8, alignItems:"center", flexWrap:"wrap", marginBottom:14 }}>
+        <div style={{ display:"flex", background:"#0f172a", border:"1px solid #1e293b", borderRadius:7, padding:3 }}>
+          {[["30d","ÚLTIMOS 30 DIAS"],["month","MÊS ATUAL"]].map(([k,l]) => (
+            <button key={k} style={mbtn(bpPeriod===k)} onClick={() => setBpPeriod(k)}>{l}</button>
+          ))}
+        </div>
+        <div style={{ width:1, height:28, background:"#1e293b" }} />
+        <div style={{ display:"flex", background:"#0f172a", border:"1px solid #1e293b", borderRadius:7, padding:3 }}>
+          {[["all","TODOS"],["1305036763","1305036763"],["3166103110","3166103110"]].map(([k,l]) => (
+            <button key={k} style={mbtn(bpSeller===k)} onClick={() => setBpSeller(k)}>{l}</button>
+          ))}
+        </div>
+        <div style={{ width:1, height:28, background:"#1e293b" }} />
+        <div style={{ display:"flex", background:"#0f172a", border:"1px solid #1e293b", borderRadius:7, padding:3 }}>
+          {[["all","TUDO"],["bolbradesco","BOLETO"],["pix","PIX"]].map(([k,l]) => (
+            <button key={k} style={mbtn(bpMetodo===k)} onClick={() => setBpMetodo(k)}>{l}</button>
+          ))}
+        </div>
+        <div style={{ width:1, height:28, background:"#1e293b" }} />
+        <div style={{ display:"flex", background:"#0f172a", border:"1px solid #1e293b", borderRadius:7, padding:3 }}>
+          {[["qty","QTD"],["brl","R$"]].map(([k,l]) => (
+            <button key={k} style={mbtnB(bpMetric===k)} onClick={() => setBpMetric(k)}>{l}</button>
+          ))}
+        </div>
+        <div style={{ fontSize:9, color:"#334155", letterSpacing:".1em", marginLeft:4 }}>
+          MLB · {subtitle} · ATZ: {BP_UPDATED}
+        </div>
+      </div>
+
+      {/* KPIs */}
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(150px,1fr))", gap:10, marginBottom:14 }}>
+        {kpiCard("TOTAL EMITIDO",    kpis.tot,  null,            "#e2e8f0")}
+        {kpiCard("% APROVAÇÃO",      kpis.rate+"%", kpis.lbl,   "#ffffff")}
+        {kpiCard("TPV APROVADO",     kpis.tpv,  "accredited",   "#22c55e")}
+        {kpiCard("EXPIRADOS",        kpis.exp,  "expired",      "#ef4444")}
+        {kpiCard("PENDENTES",        kpis.pend, "pending_*",    "#f59e0b")}
+        {kpiCard("HIGH RISK (PF)",   kpis.risk, "rejected",     "#7c3aed")}
+        {kpiCard("ASP · TICKET MÉD", kpis.asp, "brl / trx",    "#38bdf8")}
+      </div>
+
+      {/* Gráfico */}
+      <div className="card" style={{ padding:"14px 6px 10px 4px" }}>
+        <div style={{ fontSize:9, color:"#475569", letterSpacing:".1em", marginLeft:12, marginBottom:10 }}>
+          BARRAS = % NÃO APROVADO (expired · pending · rejected) · LINHA BRANCA = % APROVAÇÃO
+        </div>
+        <ResponsiveContainer width="100%" height={320}>
+          <ComposedChart data={chartData} margin={{ top:24, right:16, left:4, bottom:4 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
+            <XAxis dataKey="label" tick={{ fontSize:9, fill:"#475569", fontFamily:"IBM Plex Mono" }} axisLine={false} tickLine={false} />
+            <YAxis domain={[0,100]} tick={{ fontSize:9, fill:"#475569", fontFamily:"IBM Plex Mono" }} tickFormatter={v=>`${v}%`} axisLine={false} tickLine={false} width={36} />
+            <Tooltip content={<BPTip />} />
+            {BP_DETAILS.map(x => (
+              <Bar key={x} dataKey={x} stackId="a" fill={BP_COLORS[x]} isAnimationActive={false} maxBarSize={36} />
+            ))}
+            <Line type="monotone" dataKey="aproPct" stroke="#ffffff" strokeWidth={2} dot={{ r:3, fill:"#ffffff", strokeWidth:0 }} isAnimationActive={false}>
+              <LabelList dataKey="aproPct" position="top" style={{ fill:"#ffffff", fontSize:11, fontWeight:"bold", fontFamily:"IBM Plex Mono" }} formatter={v => v != null ? `${Math.round(v)}%` : ""} />
+            </Line>
+          </ComposedChart>
+        </ResponsiveContainer>
+        {/* Legenda */}
+        <div style={{ display:"flex", flexWrap:"wrap", gap:"6px 20px", marginTop:10, marginLeft:14, fontSize:9, color:"#64748b", letterSpacing:".05em" }}>
+          {BP_DETAILS.map(x => (
+            <span key={x} style={{ display:"flex", alignItems:"center", gap:5 }}>
+              <span style={{ width:10, height:10, borderRadius:2, background:BP_COLORS[x], display:"inline-block" }} />
+              {x}
+            </span>
+          ))}
+          <span style={{ display:"flex", alignItems:"center", gap:5 }}>
+            <span style={{ width:18, height:2, background:"#ffffff", display:"inline-block" }} />
+            % Aprovação
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function GWMDashboard() {
   const [metric,  setMetric]  = useState("qty");
   const [tryLast, setTryLast] = useState(false);
@@ -692,7 +895,7 @@ export default function GWMDashboard() {
 
       {/* ── TABS ── */}
       <div style={{ display:"flex", gap:4, marginBottom:16, background:"#0f172a", borderRadius:7, padding:4, width:"fit-content", border:"1px solid #1e293b" }}>
-        {[["overview","VISÃO GERAL"],["timeline","TIMELINE"],["transacoes","TRANSAÇÕES"]].map(([k,l]) => (
+        {[["overview","VISÃO GERAL"],["timeline","TIMELINE"],["transacoes","TRANSAÇÕES"],["boletopix","BOLETO & PIX"]].map(([k,l]) => (
           <button key={k} className="tbtn" onClick={() => setTab(k)}
             style={{ color:tab===k?"#f1f5f9":"#475569", background:tab===k?"#1e3a5f":"none", fontWeight:tab===k?600:400 }}>
             {l}
@@ -1022,6 +1225,10 @@ export default function GWMDashboard() {
             </div>
           </div>
         )}
+
+        {/* ════ BOLETO & PIX ════ */}
+        {tab==="boletopix" && <BoletoPixTab />}
+
       </div>
     </div>
   );
