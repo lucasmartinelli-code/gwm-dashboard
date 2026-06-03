@@ -518,12 +518,7 @@ const BPTip = ({ active, payload, label }) => {
   );
 };
 
-function BoletoPixTab() {
-  const [bpPeriod, setBpPeriod] = useState("30d");
-  const [bpSeller, setBpSeller] = useState("all");
-  const [bpMetodo, setBpMetodo] = useState("all");
-  const [bpMetric, setBpMetric] = useState("qty");
-
+function BoletoPixTab({ bpPeriod, bpSeller, bpMetodo, bpMetric }) {
   const maxDate = useMemo(() => RAW_BP.reduce((mx,r) => r.f > mx ? r.f : mx, ""), []);
 
   const baseRows = useMemo(() => {
@@ -603,8 +598,6 @@ function BoletoPixTab() {
     return `01/${mo} → ${maxStr}`;
   }, [bpPeriod, maxDate]);
 
-  const mbtn = (active) => ({ border:"none", cursor:"pointer", fontFamily:"inherit", fontSize:11, fontWeight:700, letterSpacing:".08em", padding:"6px 14px", borderRadius:5, transition:"all .2s", background: active ? "linear-gradient(135deg,#7c3aed,#4f46e5)" : "none", color: active ? "#fff" : "#475569" });
-  const mbtnB = (active) => ({ ...mbtn(false), background: active ? "linear-gradient(135deg,#1d4ed8,#7c3aed)" : "none", color: active ? "#fff" : "#475569" });
   const kpiCard = (label, val, sub, col) => (
     <div className="card" style={{ padding:"12px 14px" }}>
       <div style={{ fontSize:8, color:"#475569", letterSpacing:".12em", marginBottom:6 }}>{label}</div>
@@ -615,34 +608,9 @@ function BoletoPixTab() {
 
   return (
     <div>
-      {/* Filtros */}
-      <div style={{ display:"flex", gap:8, alignItems:"center", flexWrap:"wrap", marginBottom:14 }}>
-        <div style={{ display:"flex", background:"#0f172a", border:"1px solid #1e293b", borderRadius:7, padding:3 }}>
-          {[["30d","ÚLTIMOS 30 DIAS"],["month","MÊS ATUAL"]].map(([k,l]) => (
-            <button key={k} style={mbtn(bpPeriod===k)} onClick={() => setBpPeriod(k)}>{l}</button>
-          ))}
-        </div>
-        <div style={{ width:1, height:28, background:"#1e293b" }} />
-        <div style={{ display:"flex", background:"#0f172a", border:"1px solid #1e293b", borderRadius:7, padding:3 }}>
-          {[["all","TODOS"],["1305036763","1305036763"],["3166103110","3166103110"]].map(([k,l]) => (
-            <button key={k} style={mbtn(bpSeller===k)} onClick={() => setBpSeller(k)}>{l}</button>
-          ))}
-        </div>
-        <div style={{ width:1, height:28, background:"#1e293b" }} />
-        <div style={{ display:"flex", background:"#0f172a", border:"1px solid #1e293b", borderRadius:7, padding:3 }}>
-          {[["all","TUDO"],["bolbradesco","BOLETO"],["pix","PIX"]].map(([k,l]) => (
-            <button key={k} style={mbtn(bpMetodo===k)} onClick={() => setBpMetodo(k)}>{l}</button>
-          ))}
-        </div>
-        <div style={{ width:1, height:28, background:"#1e293b" }} />
-        <div style={{ display:"flex", background:"#0f172a", border:"1px solid #1e293b", borderRadius:7, padding:3 }}>
-          {[["qty","QTD"],["brl","R$"]].map(([k,l]) => (
-            <button key={k} style={mbtnB(bpMetric===k)} onClick={() => setBpMetric(k)}>{l}</button>
-          ))}
-        </div>
-        <div style={{ fontSize:9, color:"#334155", letterSpacing:".1em", marginLeft:4 }}>
-          MLB · {subtitle} · ATZ: {BP_UPDATED}
-        </div>
+      {/* Info período */}
+      <div style={{ fontSize:9, color:"#334155", letterSpacing:".1em", marginBottom:14 }}>
+        MLB · {subtitle} · ATZ: {BP_UPDATED}
       </div>
 
       {/* KPIs */}
@@ -698,6 +666,11 @@ export default function GWMDashboard() {
   const [tryLast, setTryLast] = useState(false);
   const [period,  setPeriod]  = useState("24h"); // "total" | "24h" | "hoje"
   const [tab,     setTab]     = useState("overview");
+  // Estado da aba Boleto & Pix (no header quando tab === "boletopix")
+  const [bpPeriod, setBpPeriod] = useState("30d");
+  const [bpSeller, setBpSeller] = useState("all");
+  const [bpMetodo, setBpMetodo] = useState("all");
+  const [bpMetric, setBpMetric] = useState("qty");
 
   // Pipeline: período → user_try_last
   const data = useMemo(() => {
@@ -852,55 +825,93 @@ export default function GWMDashboard() {
 
         <div style={{ display:"flex", gap:8, alignItems:"center", flexWrap:"wrap" }}>
 
-          {/* Período: Total / Últimas 24h / Hoje */}
-          <div style={{ display:"flex", background:"#0f172a", border:"1px solid #1e293b", borderRadius:7, padding:3 }}>
-            {[["total","TOTAL"],["24h","ÚLTIMAS 24H"],["hoje","HOJE"]].map(([k,l]) => (
-              <button key={k} className="mbtn" onClick={() => setPeriod(k)}
-                style={{ background: period===k ? "linear-gradient(135deg,#7c3aed,#4f46e5)" : "none", color: period===k ? "#fff" : "#475569" }}>
-                {l}
-              </button>
-            ))}
-          </div>
-
-          {/* Divider */}
-          <div style={{ width:1, height:28, background:"#1e293b" }} />
-
-          {/* QTD / R$ */}
-          <div style={{ display:"flex", background:"#0f172a", border:"1px solid #1e293b", borderRadius:7, padding:3 }}>
-            {[["qty","QTD"],["brl","R$"]].map(([k,l]) => (
-              <button key={k} className="mbtn" onClick={() => setMetric(k)}
-                style={{ background: metric===k ? "linear-gradient(135deg,#1d4ed8,#7c3aed)" : "none", color: metric===k ? "#fff" : "#475569" }}>
-                {l}
-              </button>
-            ))}
-          </div>
-
-          {/* Divider */}
-          <div style={{ width:1, height:28, background:"#1e293b" }} />
-
-          {/* Último Intento */}
-          <button className="mbtn" onClick={() => setTryLast(p => !p)}
-            style={{ background: tryLast ? "linear-gradient(135deg,#065f46,#047857)" : "#0f172a", color: tryLast ? "#6ee7b7" : "#475569", border:`1px solid ${tryLast?"#065f46":"#1e293b"}`, position:"relative" }}>
-            {tryLast && <span style={{ position:"absolute", top:-5, right:-5, width:8, height:8, background:"#10b981", borderRadius:"50%", border:"1px solid #070b12" }} />}
-            ÚLTIMO INTENTO / PAYER
-          </button>
-
-          {tryLast && removedCount > 0 && (
-            <div style={{ background:"#1c1107", border:"1px solid #92400e", borderRadius:5, padding:"4px 10px", fontSize:10, color:"#fbbf24" }}>
-              {removedCount} retentativa{removedCount>1?"s":""} removida{removedCount>1?"s":""}
+          {/* ── Filtros cartão (tabs 1-3) ── */}
+          {tab !== "boletopix" && <>
+            <div style={{ display:"flex", background:"#0f172a", border:"1px solid #1e293b", borderRadius:7, padding:3 }}>
+              {[["total","TOTAL"],["24h","ÚLTIMAS 24H"],["hoje","HOJE"]].map(([k,l]) => (
+                <button key={k} className="mbtn" onClick={() => setPeriod(k)}
+                  style={{ background: period===k ? "linear-gradient(135deg,#7c3aed,#4f46e5)" : "none", color: period===k ? "#fff" : "#475569" }}>
+                  {l}
+                </button>
+              ))}
             </div>
-          )}
+            <div style={{ width:1, height:28, background:"#1e293b" }} />
+            <div style={{ display:"flex", background:"#0f172a", border:"1px solid #1e293b", borderRadius:7, padding:3 }}>
+              {[["qty","QTD"],["brl","R$"]].map(([k,l]) => (
+                <button key={k} className="mbtn" onClick={() => setMetric(k)}
+                  style={{ background: metric===k ? "linear-gradient(135deg,#1d4ed8,#7c3aed)" : "none", color: metric===k ? "#fff" : "#475569" }}>
+                  {l}
+                </button>
+              ))}
+            </div>
+            <div style={{ width:1, height:28, background:"#1e293b" }} />
+            <button className="mbtn" onClick={() => setTryLast(p => !p)}
+              style={{ background: tryLast ? "linear-gradient(135deg,#065f46,#047857)" : "#0f172a", color: tryLast ? "#6ee7b7" : "#475569", border:`1px solid ${tryLast?"#065f46":"#1e293b"}`, position:"relative" }}>
+              {tryLast && <span style={{ position:"absolute", top:-5, right:-5, width:8, height:8, background:"#10b981", borderRadius:"50%", border:"1px solid #070b12" }} />}
+              ÚLTIMO INTENTO / PAYER
+            </button>
+            {tryLast && removedCount > 0 && (
+              <div style={{ background:"#1c1107", border:"1px solid #92400e", borderRadius:5, padding:"4px 10px", fontSize:10, color:"#fbbf24" }}>
+                {removedCount} retentativa{removedCount>1?"s":""} removida{removedCount>1?"s":""}
+              </div>
+            )}
+          </>}
+
+          {/* ── Filtros Boleto & Pix ── */}
+          {tab === "boletopix" && <>
+            <div style={{ display:"flex", background:"#0f172a", border:"1px solid #1e293b", borderRadius:7, padding:3 }}>
+              {[["30d","ÚLTIMOS 30 DIAS"],["month","MÊS ATUAL"]].map(([k,l]) => (
+                <button key={k} className="mbtn" onClick={() => setBpPeriod(k)}
+                  style={{ background: bpPeriod===k ? "linear-gradient(135deg,#7c3aed,#4f46e5)" : "none", color: bpPeriod===k ? "#fff" : "#475569" }}>
+                  {l}
+                </button>
+              ))}
+            </div>
+            <div style={{ width:1, height:28, background:"#1e293b" }} />
+            <div style={{ display:"flex", background:"#0f172a", border:"1px solid #1e293b", borderRadius:7, padding:3 }}>
+              {[["all","TODOS"],["1305036763","1305036763"],["3166103110","3166103110"]].map(([k,l]) => (
+                <button key={k} className="mbtn" onClick={() => setBpSeller(k)}
+                  style={{ background: bpSeller===k ? "linear-gradient(135deg,#7c3aed,#4f46e5)" : "none", color: bpSeller===k ? "#fff" : "#475569" }}>
+                  {l}
+                </button>
+              ))}
+            </div>
+            <div style={{ width:1, height:28, background:"#1e293b" }} />
+            <div style={{ display:"flex", background:"#0f172a", border:"1px solid #1e293b", borderRadius:7, padding:3 }}>
+              {[["all","TUDO"],["bolbradesco","BOLETO"],["pix","PIX"]].map(([k,l]) => (
+                <button key={k} className="mbtn" onClick={() => setBpMetodo(k)}
+                  style={{ background: bpMetodo===k ? "linear-gradient(135deg,#7c3aed,#4f46e5)" : "none", color: bpMetodo===k ? "#fff" : "#475569" }}>
+                  {l}
+                </button>
+              ))}
+            </div>
+            <div style={{ width:1, height:28, background:"#1e293b" }} />
+            <div style={{ display:"flex", background:"#0f172a", border:"1px solid #1e293b", borderRadius:7, padding:3 }}>
+              {[["qty","QTD"],["brl","R$"]].map(([k,l]) => (
+                <button key={k} className="mbtn" onClick={() => setBpMetric(k)}
+                  style={{ background: bpMetric===k ? "linear-gradient(135deg,#1d4ed8,#7c3aed)" : "none", color: bpMetric===k ? "#fff" : "#475569" }}>
+                  {l}
+                </button>
+              ))}
+            </div>
+          </>}
+
         </div>
       </div>
 
       {/* ── TABS ── */}
       <div style={{ display:"flex", gap:4, marginBottom:16, background:"#0f172a", borderRadius:7, padding:4, width:"fit-content", border:"1px solid #1e293b" }}>
-        {[["overview","VISÃO GERAL"],["timeline","TIMELINE"],["transacoes","TRANSAÇÕES"],["boletopix","BOLETO & PIX"]].map(([k,l]) => (
+        {[["overview","VISÃO GERAL"],["timeline","TIMELINE"],["transacoes","TRANSAÇÕES"]].map(([k,l]) => (
           <button key={k} className="tbtn" onClick={() => setTab(k)}
             style={{ color:tab===k?"#f1f5f9":"#475569", background:tab===k?"#1e3a5f":"none", fontWeight:tab===k?600:400 }}>
             {l}
           </button>
         ))}
+        <div style={{ width:1, height:20, background:"#334155", margin:"0 4px", alignSelf:"center" }} />
+        <button className="tbtn" onClick={() => setTab("boletopix")}
+          style={{ color:tab==="boletopix"?"#f1f5f9":"#64748b", background:tab==="boletopix"?"#1e293b":"none", fontWeight:tab==="boletopix"?600:400, borderRadius:5, border: tab==="boletopix" ? "1px solid #334155" : "1px solid transparent" }}>
+          BOLETO & PIX
+        </button>
       </div>
 
       <div className="fade" key={tab+metric+tryLast+period}>
@@ -1227,7 +1238,7 @@ export default function GWMDashboard() {
         )}
 
         {/* ════ BOLETO & PIX ════ */}
-        {tab==="boletopix" && <BoletoPixTab />}
+        {tab==="boletopix" && <BoletoPixTab bpPeriod={bpPeriod} bpSeller={bpSeller} bpMetodo={bpMetodo} bpMetric={bpMetric} />}
 
       </div>
     </div>
