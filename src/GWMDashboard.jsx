@@ -883,7 +883,7 @@ export default function GWMDashboard() {
     }
     const tid = setTimeout(() => { tlRaf.current = requestAnimationFrame(step); }, 100);
     return () => { clearTimeout(tid); if (tlRaf.current) cancelAnimationFrame(tlRaf.current); };
-  }, [hourRejData]);
+  }, [data, metric]); // data e metric são estáveis (useMemo/string) — hourRejData não é
 
   const visHourRejData = useMemo(() => {
     const n   = hourRejData.length;
