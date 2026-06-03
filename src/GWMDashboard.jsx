@@ -2,6 +2,11 @@ import { useState, useMemo } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieChart, Pie, Legend, ComposedChart, Line } from "recharts";
 
 const RAW = [
+  { id:"162293459838", payerId:"1402401829", collectorId:"3166103110", date:"03/06/2026 08:58", status:"approved", detail:"accredited", amount:350, method:"master", op:"regular_payment" },
+  { id:"161499520385", payerId:"1553702943", collectorId:"3166103110", date:"03/06/2026 08:56", status:"approved", detail:"accredited", amount:35, method:"visa", op:"regular_payment" },
+  { id:"162293270740", payerId:"2056169128", collectorId:"3166103110", date:"03/06/2026 08:39", status:"approved", detail:"accredited", amount:56, method:"master", op:"regular_payment" },
+  { id:"162292251168", payerId:"1471117376", collectorId:"3166103110", date:"03/06/2026 08:39", status:"approved", detail:"accredited", amount:56, method:"master", op:"regular_payment" },
+  { id:"162293270360", payerId:"1418620789", collectorId:"3166103110", date:"03/06/2026 08:33", status:"approved", detail:"accredited", amount:350, method:"master", op:"regular_payment" },
   { id:"161491856909", payerId:"1588790893", collectorId:"3166103110", date:"03/06/2026 08:05", status:"approved", detail:"accredited", amount:35, method:"visa", op:"regular_payment" },
   { id:"162284731750", payerId:"1785035640", collectorId:"3166103110", date:"03/06/2026 07:52", status:"approved", detail:"accredited", amount:350, method:"master", op:"regular_payment" },
   { id:"161477341777", payerId:"1380183432", collectorId:"3166103110", date:"03/06/2026 05:53", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
@@ -389,7 +394,7 @@ const RAW = [
 ];
 
 const COLLECTOR_ID = "3166103110";
-const LAST_UPDATED = "03/06/2026 10:11";
+const LAST_UPDATED = "03/06/2026 11:11";
 const LAST_TRX     = RAW.length > 0 ? RAW[0].date : "-";
 const METHOD_COLORS = { master:"#3b82f6", visa:"#a855f7", amex:"#10b981" };
 const STATUS_COLORS = { approved:"#22c55e", rejected:"#ef4444", refunded:"#f59e0b" };
