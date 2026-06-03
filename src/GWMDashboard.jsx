@@ -578,10 +578,13 @@ function BoletoPixTab({ bpPeriod, bpSeller, bpMetodo, bpMetric }) {
       const row = {
         label: k.slice(5).replace("-","/"),
         aproPct: tot>0 ? parseFloat((ap/tot*100).toFixed(1)) : null,
+        _raw_aproPct: ap,
+        _tot: tot,
       };
       BP_DETAILS.forEach(x => {
         const v = bpMetric==="brl" ? (d["b_"+x]||0) : (d["q_"+x]||0);
         row[x] = tot>0 ? parseFloat((v/tot*100).toFixed(1)) : 0;
+        row[`_raw_${x}`] = v;
       });
       return row;
     });
@@ -634,7 +637,29 @@ function BoletoPixTab({ bpPeriod, bpSeller, bpMetodo, bpMetric }) {
             <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
             <XAxis dataKey="label" tick={{ fontSize:9, fill:"#475569", fontFamily:"IBM Plex Mono" }} axisLine={false} tickLine={false} />
             <YAxis domain={[0,100]} tick={{ fontSize:9, fill:"#475569", fontFamily:"IBM Plex Mono" }} tickFormatter={v=>`${v}%`} axisLine={false} tickLine={false} width={36} />
-            <Tooltip content={<BPTip />} />
+            <Tooltip content={({ active, payload }) => {
+              if (!active || !payload?.length) return null;
+              const pt  = payload[0]?.payload;
+              const isBrl = bpMetric === "brl";
+              const fmt = v => isBrl ? fmtBig(v||0) : (v||0).toLocaleString("pt-BR") + " trx";
+              const items = payload.filter(p => (p.value||0) > 0.05).sort((a,b) => b.value - a.value);
+              return (
+                <div style={{ background:"#0f172a", border:"1px solid #334155", borderRadius:7, padding:"10px 14px", fontSize:11, minWidth:220 }}>
+                  <div style={{ color:"#64748b", marginBottom:6, fontSize:10 }}>
+                    {pt?.label} · Total: {fmt(pt?._tot)}
+                  </div>
+                  {items.map((p, i) => {
+                    const raw = p.dataKey === "aproPct" ? pt?._raw_aproPct : pt?.[`_raw_${p.dataKey}`];
+                    return (
+                      <div key={i} style={{ color: p.fill || p.stroke || "#e2e8f0", marginBottom:2, display:"flex", justifyContent:"space-between", gap:16 }}>
+                        <span>{p.dataKey}</span>
+                        <span style={{ color:"#e2e8f0" }}>{p.value?.toFixed(1)}% · {fmt(raw)}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            }} />
             {BP_DETAILS.map(x => (
               <Bar key={x} dataKey={x} stackId="a" fill={BP_COLORS[x]} isAnimationActive={false} maxBarSize={36} />
             ))}
