@@ -2,6 +2,11 @@ import { useState, useMemo } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieChart, Pie, Legend, ComposedChart, Line } from "recharts";
 
 const RAW = [
+  { id:"161427247049", payerId:"1630552299", collectorId:"3166103110", date:"02/06/2026 18:09", status:"approved", detail:"accredited", amount:56, method:"visa", op:"regular_payment" },
+  { id:"161425725627", payerId:"1630552299", collectorId:"3166103110", date:"02/06/2026 18:05", status:"rejected", detail:"cc_rejected_call_for_authorize", amount:56, method:"master", op:"regular_payment" },
+  { id:"161406461405", payerId:"1556285311", collectorId:"3166103110", date:"02/06/2026 16:13", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
+  { id:"162203938272", payerId:"2109984031", collectorId:"3166103110", date:"02/06/2026 16:11", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
+  { id:"162193659874", payerId:"1771711611", collectorId:"3166103110", date:"02/06/2026 15:17", status:"rejected", detail:"cc_rejected_insufficient_amount", amount:56, method:"master", op:"regular_payment" },
   { id:"162187156834", payerId:"1702161508", collectorId:"3166103110", date:"02/06/2026 14:19", status:"rejected", detail:"cc_rejected_insufficient_amount", amount:56, method:"master", op:"regular_payment" },
   { id:"161389843655", payerId:"1771711611", collectorId:"3166103110", date:"02/06/2026 14:16", status:"rejected", detail:"cc_rejected_insufficient_amount", amount:56, method:"master", op:"regular_payment" },
   { id:"162182246532", payerId:"3444221025", collectorId:"3166103110", date:"02/06/2026 13:39", status:"approved", detail:"accredited", amount:35, method:"visa", op:"regular_payment" },
@@ -369,7 +374,7 @@ const RAW = [
 ];
 
 const COLLECTOR_ID = "3166103110";
-const LAST_UPDATED = "02/06/2026 19:16";
+const LAST_UPDATED = "02/06/2026 21:11";
 const LAST_TRX     = RAW.length > 0 ? RAW[0].date : "-";
 const METHOD_COLORS = { master:"#3b82f6", visa:"#a855f7", amex:"#10b981" };
 const STATUS_COLORS = { approved:"#22c55e", rejected:"#ef4444", refunded:"#f59e0b" };
