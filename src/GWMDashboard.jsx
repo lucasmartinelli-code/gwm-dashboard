@@ -3,6 +3,12 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieCha
 import { RAW_BP, BP_UPDATED } from "./GWMBoletoPixData";
 
 const RAW = [
+  { id:"161656353057", payerId:"1540031354", collectorId:"3166103110", date:"04/06/2026 08:08", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
+  { id:"162450979032", payerId:"1702468967", collectorId:"3166103110", date:"04/06/2026 07:39", status:"approved", detail:"accredited", amount:350, method:"master", op:"regular_payment" },
+  { id:"162450934806", payerId:"1702468967", collectorId:"3166103110", date:"04/06/2026 07:35", status:"rejected", detail:"cc_rejected_insufficient_amount", amount:350, method:"visa", op:"regular_payment" },
+  { id:"162450978110", payerId:"1724348011", collectorId:"3166103110", date:"04/06/2026 07:24", status:"approved", detail:"accredited", amount:350, method:"master", op:"regular_payment" },
+  { id:"161650685311", payerId:"1655279261", collectorId:"3166103110", date:"04/06/2026 07:08", status:"approved", detail:"accredited", amount:350, method:"visa", op:"regular_payment" },
+  { id:"161649911927", payerId:"1796650109", collectorId:"3166103110", date:"04/06/2026 07:07", status:"approved", detail:"accredited", amount:35, method:"visa", op:"regular_payment" },
   { id:"161650674881", payerId:"1724007774", collectorId:"3166103110", date:"04/06/2026 07:01", status:"approved", detail:"accredited", amount:56, method:"visa", op:"regular_payment" },
   { id:"161645504041", payerId:"1606967658", collectorId:"3166103110", date:"04/06/2026 06:09", status:"approved", detail:"accredited", amount:350, method:"master", op:"regular_payment" },
   { id:"161645328725", payerId:"1672590617", collectorId:"3166103110", date:"04/06/2026 05:34", status:"approved", detail:"accredited", amount:350, method:"visa", op:"regular_payment" },
@@ -339,7 +345,7 @@ const RAW = [
 ];
 
 const COLLECTOR_ID = "3166103110";
-const LAST_UPDATED = "04/06/2026 08:56";
+const LAST_UPDATED = "04/06/2026 10:14";
 const LAST_TRX     = RAW.length > 0 ? RAW[0].date : "-";
 const METHOD_COLORS = { master:"#3b82f6", visa:"#a855f7", amex:"#10b981" };
 const STATUS_COLORS = { approved:"#22c55e", rejected:"#ef4444", refunded:"#f59e0b" };
