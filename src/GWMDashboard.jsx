@@ -3,6 +3,11 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieCha
 import { RAW_BP, BP_UPDATED } from "./GWMBoletoPixData";
 
 const RAW = [
+  { id:"162713809316", payerId:"1776001518", collectorId:"3166103110", date:"05/06/2026 18:24", status:"approved", detail:"accredited", amount:56, method:"master", op:"regular_payment" },
+  { id:"161913855151", payerId:"2562290513", collectorId:"3166103110", date:"05/06/2026 18:22", status:"rejected", detail:"cc_rejected_card_disabled", amount:56, method:"visa", op:"regular_payment" },
+  { id:"161910904719", payerId:"3043901910", collectorId:"3166103110", date:"05/06/2026 18:02", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
+  { id:"162709196808", payerId:"3043901910", collectorId:"3166103110", date:"05/06/2026 17:58", status:"rejected", detail:"cc_rejected_bad_filled_security_code", amount:35, method:"master", op:"regular_payment" },
+  { id:"161907295237", payerId:"1877361573", collectorId:"3166103110", date:"05/06/2026 17:50", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
   { id:"162694641982", payerId:"1498893249", collectorId:"3166103110", date:"05/06/2026 16:58", status:"approved", detail:"accredited", amount:20, method:"master", op:"regular_payment" },
   { id:"161895174043", payerId:"1498893249", collectorId:"3166103110", date:"05/06/2026 16:56", status:"rejected", detail:"cc_rejected_bad_filled_security_code", amount:20, method:"master", op:"regular_payment" },
   { id:"161895439657", payerId:"1549235826", collectorId:"3166103110", date:"05/06/2026 16:54", status:"approved", detail:"accredited", amount:35, method:"visa", op:"regular_payment" },
@@ -320,7 +325,7 @@ const RAW = [
 ];
 
 const COLLECTOR_ID = "3166103110";
-const LAST_UPDATED = "05/06/2026 18:11";
+const LAST_UPDATED = "05/06/2026 19:12";
 const LAST_TRX     = RAW.length > 0 ? RAW[0].date : "-";
 const METHOD_COLORS = { master:"#3b82f6", visa:"#a855f7", amex:"#10b981" };
 const STATUS_COLORS = { approved:"#22c55e", rejected:"#ef4444", refunded:"#f59e0b" };
