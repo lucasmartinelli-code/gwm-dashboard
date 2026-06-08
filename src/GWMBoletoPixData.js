@@ -1,7 +1,7 @@
 // Gerado automaticamente — não editar manualmente
 // Fonte: BT_MP_PAY_PAYMENTS_NRT | MLB | não-cartão | sellers GWM
 // Período: últimos 30 dias
-export const BP_UPDATED = "08/06/2026 08:01";
+export const BP_UPDATED = "08/06/2026 08:12";
 
 export const RAW_BP = [
   {f:"2026-05-10",s:"1305036763",m:"bolbradesco",si:"cancelled",d:"expired",q:6,b:181000},
