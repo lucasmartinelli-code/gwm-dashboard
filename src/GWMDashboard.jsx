@@ -3,6 +3,8 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieCha
 import { RAW_BP, BP_UPDATED } from "./GWMBoletoPixData";
 
 const RAW = [
+  { id:"162372792759", payerId:"1521903906", collectorId:"3166103110", date:"08/06/2026 18:09", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
+  { id:"162366808021", payerId:"1658223852", collectorId:"3166103110", date:"08/06/2026 17:50", status:"approved", detail:"accredited", amount:56, method:"visa", op:"regular_payment" },
   { id:"163169822456", payerId:"1590759645", collectorId:"3166103110", date:"08/06/2026 17:39", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
   { id:"163166897458", payerId:"1550133283", collectorId:"3166103110", date:"08/06/2026 17:34", status:"approved", detail:"accredited", amount:35, method:"visa", op:"regular_payment" },
   { id:"162358926709", payerId:"2527992836", collectorId:"3166103110", date:"08/06/2026 16:50", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
@@ -356,7 +358,7 @@ const RAW = [
 ];
 
 const COLLECTOR_ID = "3166103110";
-const LAST_UPDATED = "08/06/2026 18:12";
+const LAST_UPDATED = "08/06/2026 19:11";
 const LAST_TRX     = RAW.length > 0 ? RAW[0].date : "-";
 const METHOD_COLORS = { master:"#3b82f6", visa:"#a855f7", amex:"#10b981" };
 const STATUS_COLORS = { approved:"#22c55e", rejected:"#ef4444", refunded:"#f59e0b" };
