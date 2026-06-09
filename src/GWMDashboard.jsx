@@ -3,6 +3,13 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieCha
 import { RAW_BP, BP_UPDATED } from "./GWMBoletoPixData";
 
 const RAW = [
+  { id:"162468738905", payerId:"1877188087", collectorId:"3166103110", date:"09/06/2026 11:10", status:"approved", detail:"accredited", amount:35, method:"visa", op:"regular_payment" },
+  { id:"163271161058", payerId:"1511172106", collectorId:"3166103110", date:"09/06/2026 11:04", status:"approved", detail:"accredited", amount:350, method:"master", op:"regular_payment" },
+  { id:"163272148448", payerId:"1832528082", collectorId:"3166103110", date:"09/06/2026 11:04", status:"approved", detail:"accredited", amount:56, method:"visa", op:"regular_payment" },
+  { id:"163266036020", payerId:"1480100656", collectorId:"3166103110", date:"09/06/2026 10:44", status:"approved", detail:"accredited", amount:56, method:"visa", op:"regular_payment" },
+  { id:"162460791043", payerId:"1764622831", collectorId:"3166103110", date:"09/06/2026 10:21", status:"approved", detail:"accredited", amount:35, method:"visa", op:"regular_payment" },
+  { id:"163263621056", payerId:"1613386315", collectorId:"3166103110", date:"09/06/2026 10:13", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
+  { id:"162459391559", payerId:"1627519657", collectorId:"3166103110", date:"09/06/2026 10:13", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
   { id:"162452180827", payerId:"2341414103", collectorId:"3166103110", date:"09/06/2026 09:09", status:"approved", detail:"accredited", amount:56, method:"visa", op:"regular_payment" },
   { id:"162448365069", payerId:"1792355018", collectorId:"3166103110", date:"09/06/2026 08:38", status:"approved", detail:"accredited", amount:350, method:"master", op:"regular_payment" },
   { id:"162446389943", payerId:"1555401084", collectorId:"3166103110", date:"09/06/2026 08:33", status:"approved", detail:"accredited", amount:56, method:"visa", op:"regular_payment" },
@@ -353,7 +360,7 @@ const RAW = [
 ];
 
 const COLLECTOR_ID = "3166103110";
-const LAST_UPDATED = "09/06/2026 10:12";
+const LAST_UPDATED = "09/06/2026 12:12";
 const LAST_TRX     = RAW.length > 0 ? RAW[0].date : "-";
 const METHOD_COLORS = { master:"#3b82f6", visa:"#a855f7", amex:"#10b981" };
 const STATUS_COLORS = { approved:"#22c55e", rejected:"#ef4444", refunded:"#f59e0b" };

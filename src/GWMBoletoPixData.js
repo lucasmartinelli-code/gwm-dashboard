@@ -1,7 +1,7 @@
 // Gerado automaticamente — não editar manualmente
 // Fonte: BT_MP_PAY_PAYMENTS_NRT | MLB | não-cartão | sellers GWM
 // Período: últimos 30 dias
-export const BP_UPDATED = "09/06/2026 10:12";
+export const BP_UPDATED = "09/06/2026 12:12";
 
 export const RAW_BP = [
   {f:"2026-05-11",s:"1305036763",m:"bolbradesco",si:"approved",d:"accredited",q:307,b:35412554},
@@ -282,23 +282,24 @@ export const RAW_BP = [
   {f:"2026-06-07",s:"1305036763",m:"pix",si:"cancelled",d:"expired",q:6,b:54000},
   {f:"2026-06-07",s:"3166103110",m:"bolbradesco",si:"pending",d:"pending_waiting_payment",q:1,b:54000},
   {f:"2026-06-07",s:"3166103110",m:"pix",si:"cancelled",d:"expired",q:1,b:9000},
-  {f:"2026-06-08",s:"1305036763",m:"bolbradesco",si:"approved",d:"accredited",q:159,b:17622718},
-  {f:"2026-06-08",s:"1305036763",m:"bolbradesco",si:"pending",d:"pending_waiting_payment",q:376,b:42019089},
+  {f:"2026-06-08",s:"1305036763",m:"bolbradesco",si:"approved",d:"accredited",q:169,b:18571304},
+  {f:"2026-06-08",s:"1305036763",m:"bolbradesco",si:"pending",d:"pending_waiting_payment",q:366,b:41070502},
   {f:"2026-06-08",s:"1305036763",m:"bolbradesco",si:"rejected",d:"rejected_high_risk",q:5,b:442905},
-  {f:"2026-06-08",s:"1305036763",m:"pix",si:"approved",d:"accredited",q:177,b:6954778},
-  {f:"2026-06-08",s:"1305036763",m:"pix",si:"cancelled",d:"expired",q:15,b:696991},
-  {f:"2026-06-08",s:"1305036763",m:"pix",si:"pending",d:"pending_waiting_transfer",q:69,b:4434487},
+  {f:"2026-06-08",s:"1305036763",m:"pix",si:"approved",d:"accredited",q:180,b:7165978},
+  {f:"2026-06-08",s:"1305036763",m:"pix",si:"cancelled",d:"expired",q:32,b:1951900},
+  {f:"2026-06-08",s:"1305036763",m:"pix",si:"pending",d:"pending_waiting_transfer",q:49,b:2968378},
   {f:"2026-06-08",s:"1305036763",m:"pix",si:"rejected",d:"rejected_high_risk",q:1,b:113300},
   {f:"2026-06-08",s:"3166103110",m:"bolbradesco",si:"approved",d:"accredited",q:22,b:2712365},
   {f:"2026-06-08",s:"3166103110",m:"bolbradesco",si:"pending",d:"pending_waiting_payment",q:81,b:9596052},
-  {f:"2026-06-08",s:"3166103110",m:"pix",si:"approved",d:"accredited",q:22,b:1522559},
-  {f:"2026-06-08",s:"3166103110",m:"pix",si:"cancelled",d:"expired",q:3,b:139000},
-  {f:"2026-06-08",s:"3166103110",m:"pix",si:"pending",d:"pending_waiting_transfer",q:12,b:1054512},
-  {f:"2026-06-09",s:"1305036763",m:"bolbradesco",si:"approved",d:"accredited",q:1,b:10000},
-  {f:"2026-06-09",s:"1305036763",m:"bolbradesco",si:"pending",d:"pending_waiting_payment",q:59,b:6267787},
-  {f:"2026-06-09",s:"1305036763",m:"pix",si:"approved",d:"accredited",q:11,b:498636},
-  {f:"2026-06-09",s:"1305036763",m:"pix",si:"pending",d:"pending_waiting_transfer",q:19,b:1483525},
-  {f:"2026-06-09",s:"3166103110",m:"bolbradesco",si:"pending",d:"pending_waiting_payment",q:11,b:928152},
-  {f:"2026-06-09",s:"3166103110",m:"pix",si:"approved",d:"accredited",q:2,b:204400},
-  {f:"2026-06-09",s:"3166103110",m:"pix",si:"pending",d:"pending_waiting_transfer",q:3,b:490620}
+  {f:"2026-06-08",s:"3166103110",m:"pix",si:"approved",d:"accredited",q:23,b:1531559},
+  {f:"2026-06-08",s:"3166103110",m:"pix",si:"cancelled",d:"expired",q:6,b:672400},
+  {f:"2026-06-08",s:"3166103110",m:"pix",si:"pending",d:"pending_waiting_transfer",q:8,b:512112},
+  {f:"2026-06-09",s:"1305036763",m:"bolbradesco",si:"approved",d:"accredited",q:10,b:739091},
+  {f:"2026-06-09",s:"1305036763",m:"bolbradesco",si:"pending",d:"pending_waiting_payment",q:153,b:14759890},
+  {f:"2026-06-09",s:"1305036763",m:"pix",si:"approved",d:"accredited",q:29,b:1180097},
+  {f:"2026-06-09",s:"1305036763",m:"pix",si:"pending",d:"pending_waiting_transfer",q:40,b:2782487},
+  {f:"2026-06-09",s:"3166103110",m:"bolbradesco",si:"approved",d:"accredited",q:1,b:99600},
+  {f:"2026-06-09",s:"3166103110",m:"bolbradesco",si:"pending",d:"pending_waiting_payment",q:28,b:2138492},
+  {f:"2026-06-09",s:"3166103110",m:"pix",si:"approved",d:"accredited",q:3,b:213400},
+  {f:"2026-06-09",s:"3166103110",m:"pix",si:"pending",d:"pending_waiting_transfer",q:12,b:998601}
 ];
