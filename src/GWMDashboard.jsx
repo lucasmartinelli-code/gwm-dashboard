@@ -840,7 +840,7 @@ export default function GWMDashboard() {
       return row;
     });
 
-  const periodLabel = period === "total" ? "TOTAL" : period === "hoje" ? `HOJE (${LATEST_DATE})` : "ÚLTIMAS 24H";
+  const periodLabel = period === "total" ? "ÚLTIMOS 7 DIAS" : period === "hoje" ? `HOJE (${LATEST_DATE})` : "ÚLTIMAS 24H";
 
   return (
     <div style={{ background:"#070b12", minHeight:"100vh", fontFamily:"'IBM Plex Mono','Courier New',monospace", color:"#e2e8f0", padding:"20px" }}>
@@ -879,7 +879,7 @@ export default function GWMDashboard() {
           {/* ── Filtros cartão (tabs 1-3) ── */}
           {tab !== "boletopix" && <>
             <div style={{ display:"flex", background:"#0f172a", border:"1px solid #1e293b", borderRadius:7, padding:3 }}>
-              {[["total","TOTAL"],["24h","ÚLTIMAS 24H"],["hoje","HOJE"]].map(([k,l]) => (
+              {[["total","ÚLTIMOS 7 DIAS"],["24h","ÚLTIMAS 24H"],["hoje","HOJE"]].map(([k,l]) => (
                 <button key={k} className="mbtn" onClick={() => setPeriod(k)}
                   style={{ background: period===k ? "linear-gradient(135deg,#7c3aed,#4f46e5)" : "none", color: period===k ? "#fff" : "#475569" }}>
                   {l}
