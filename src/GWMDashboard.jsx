@@ -3,7 +3,10 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieCha
 import { RAW_BP, BP_UPDATED } from "./GWMBoletoPixData";
 
 const RAW = [
-  { id:"162496988377", payerId:"1425468387", collectorId:"3166103110", date:"09/06/2026 13:43", status:"rejected", detail:"pending_contingency", amount:35, method:"visa", op:"regular_payment" },
+  { id:"162503163903", payerId:"1510352431", collectorId:"3166103110", date:"09/06/2026 14:44", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
+  { id:"163303187510", payerId:"2240196821", collectorId:"3166103110", date:"09/06/2026 14:14", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
+  { id:"163302057476", payerId:"1584601836", collectorId:"3166103110", date:"09/06/2026 14:06", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
+  { id:"162496988377", payerId:"1425468387", collectorId:"3166103110", date:"09/06/2026 13:43", status:"approved", detail:"accredited", amount:35, method:"visa", op:"regular_payment" },
   { id:"163296381976", payerId:"1728774946", collectorId:"3166103110", date:"09/06/2026 13:38", status:"approved", detail:"accredited", amount:35, method:"visa", op:"regular_payment" },
   { id:"163296478910", payerId:"1601067362", collectorId:"3166103110", date:"09/06/2026 13:26", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
   { id:"163296380490", payerId:"1740104289", collectorId:"3166103110", date:"09/06/2026 13:21", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
@@ -376,7 +379,7 @@ const RAW = [
 ];
 
 const COLLECTOR_ID = "3166103110";
-const LAST_UPDATED = "09/06/2026 14:23";
+const LAST_UPDATED = "09/06/2026 15:12";
 const LAST_TRX     = RAW.length > 0 ? RAW[0].date : "-";
 const METHOD_COLORS = { master:"#3b82f6", visa:"#a855f7", amex:"#10b981" };
 const STATUS_COLORS = { approved:"#22c55e", rejected:"#ef4444", refunded:"#f59e0b" };
