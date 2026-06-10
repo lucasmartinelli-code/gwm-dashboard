@@ -1,7 +1,7 @@
 // Gerado automaticamente — não editar manualmente
 // Fonte: BT_MP_PAY_PAYMENTS_NRT | MLB | não-cartão | sellers GWM
 // Período: últimos 30 dias
-export const BP_UPDATED = "09/06/2026 22:11";
+export const BP_UPDATED = "09/06/2026 23:11";
 
 export const RAW_BP = [
   {f:"2026-05-11",s:"1305036763",m:"bolbradesco",si:"approved",d:"accredited",q:307,b:35412554},
@@ -291,8 +291,7 @@ export const RAW_BP = [
   {f:"2026-06-08",s:"1305036763",m:"bolbradesco",si:"pending",d:"pending_waiting_payment",q:268,b:33158607},
   {f:"2026-06-08",s:"1305036763",m:"bolbradesco",si:"rejected",d:"rejected_high_risk",q:5,b:442905},
   {f:"2026-06-08",s:"1305036763",m:"pix",si:"approved",d:"accredited",q:184,b:7549378},
-  {f:"2026-06-08",s:"1305036763",m:"pix",si:"cancelled",d:"expired",q:76,b:4527878},
-  {f:"2026-06-08",s:"1305036763",m:"pix",si:"pending",d:"pending_waiting_transfer",q:1,b:9000},
+  {f:"2026-06-08",s:"1305036763",m:"pix",si:"cancelled",d:"expired",q:77,b:4536878},
   {f:"2026-06-08",s:"1305036763",m:"pix",si:"rejected",d:"rejected_high_risk",q:1,b:113300},
   {f:"2026-06-08",s:"3166103110",m:"bolbradesco",si:"approved",d:"accredited",q:40,b:4274145},
   {f:"2026-06-08",s:"3166103110",m:"bolbradesco",si:"pending",d:"pending_waiting_payment",q:63,b:8034272},
@@ -301,7 +300,7 @@ export const RAW_BP = [
   {f:"2026-06-09",s:"1305036763",m:"bolbradesco",si:"approved",d:"accredited",q:99,b:9209946},
   {f:"2026-06-09",s:"1305036763",m:"bolbradesco",si:"pending",d:"pending_waiting_payment",q:392,b:38623333},
   {f:"2026-06-09",s:"1305036763",m:"pix",si:"approved",d:"accredited",q:174,b:7026544},
-  {f:"2026-06-09",s:"1305036763",m:"pix",si:"pending",d:"pending_waiting_transfer",q:76,b:5964360},
+  {f:"2026-06-09",s:"1305036763",m:"pix",si:"pending",d:"pending_waiting_transfer",q:77,b:5973360},
   {f:"2026-06-09",s:"3166103110",m:"bolbradesco",si:"approved",d:"accredited",q:13,b:919500},
   {f:"2026-06-09",s:"3166103110",m:"bolbradesco",si:"pending",d:"pending_waiting_payment",q:98,b:8279022},
   {f:"2026-06-09",s:"3166103110",m:"pix",si:"approved",d:"accredited",q:35,b:2299670},
