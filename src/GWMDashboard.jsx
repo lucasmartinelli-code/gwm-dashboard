@@ -3,6 +3,11 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieCha
 import { RAW_BP, BP_UPDATED } from "./GWMBoletoPixData";
 
 const RAW = [
+  { id:"162783864539", payerId:"1769650298", collectorId:"3166103110", date:"11/06/2026 09:29", status:"approved", detail:"accredited", amount:35, method:"visa", op:"regular_payment" },
+  { id:"162779345659", payerId:"1521901398", collectorId:"3166103110", date:"11/06/2026 09:07", status:"approved", detail:"accredited", amount:35, method:"visa", op:"regular_payment" },
+  { id:"163586561118", payerId:"1743066651", collectorId:"3166103110", date:"11/06/2026 09:04", status:"approved", detail:"accredited", amount:56, method:"visa", op:"regular_payment" },
+  { id:"163586157024", payerId:"1892657482", collectorId:"3166103110", date:"11/06/2026 09:00", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
+  { id:"162778647279", payerId:"1374132526", collectorId:"3166103110", date:"11/06/2026 08:55", status:"approved", detail:"accredited", amount:35, method:"visa", op:"recurring_payment" },
   { id:"162778896543", payerId:"1825918421", collectorId:"3166103110", date:"11/06/2026 08:46", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
   { id:"163583604730", payerId:"1662418044", collectorId:"3166103110", date:"11/06/2026 08:31", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
   { id:"163582373196", payerId:"1857752651", collectorId:"3166103110", date:"11/06/2026 08:25", status:"approved", detail:"accredited", amount:56, method:"master", op:"regular_payment" },
@@ -442,7 +447,7 @@ const RAW = [
 ];
 
 const COLLECTOR_ID = "3166103110";
-const LAST_UPDATED = "11/06/2026 09:17";
+const LAST_UPDATED = "11/06/2026 10:12";
 const LAST_TRX     = RAW.length > 0 ? RAW[0].date : "-";
 const METHOD_COLORS = { master:"#3b82f6", visa:"#a855f7", amex:"#10b981" };
 const STATUS_COLORS = { approved:"#22c55e", rejected:"#ef4444", refunded:"#f59e0b" };
