@@ -1,7 +1,7 @@
 // Gerado automaticamente — não editar manualmente
 // Fonte: BT_MP_PAY_PAYMENTS_NRT | MLB | não-cartão | sellers GWM
 // Período: últimos 30 dias
-export const BP_UPDATED = "10/06/2026 21:11";
+export const BP_UPDATED = "10/06/2026 22:11";
 
 export const RAW_BP = [
   {f:"2026-05-12",s:"1305036763",m:"account_money",si:"approved",d:"accredited",q:1,b:28443},
@@ -290,8 +290,8 @@ export const RAW_BP = [
   {f:"2026-06-09",s:"1305036763",m:"bolbradesco",si:"approved",d:"accredited",q:231,b:21432245},
   {f:"2026-06-09",s:"1305036763",m:"bolbradesco",si:"pending",d:"pending_waiting_payment",q:262,b:26678835},
   {f:"2026-06-09",s:"1305036763",m:"pix",si:"approved",d:"accredited",q:189,b:7393935},
-  {f:"2026-06-09",s:"1305036763",m:"pix",si:"cancelled",d:"expired",q:59,b:5578969},
-  {f:"2026-06-09",s:"1305036763",m:"pix",si:"pending",d:"pending_waiting_transfer",q:4,b:36000},
+  {f:"2026-06-09",s:"1305036763",m:"pix",si:"cancelled",d:"expired",q:61,b:5596969},
+  {f:"2026-06-09",s:"1305036763",m:"pix",si:"pending",d:"pending_waiting_transfer",q:2,b:18000},
   {f:"2026-06-09",s:"3166103110",m:"bolbradesco",si:"approved",d:"accredited",q:42,b:2806012},
   {f:"2026-06-09",s:"3166103110",m:"bolbradesco",si:"pending",d:"pending_waiting_payment",q:69,b:6392509},
   {f:"2026-06-09",s:"3166103110",m:"pix",si:"approved",d:"accredited",q:44,b:2380670},
