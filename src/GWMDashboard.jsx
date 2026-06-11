@@ -3,6 +3,10 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieCha
 import { RAW_BP, BP_UPDATED } from "./GWMBoletoPixData";
 
 const RAW = [
+  { id:"162858019183", payerId:"1819734566", collectorId:"3166103110", date:"11/06/2026 17:37", status:"approved", detail:"accredited", amount:350, method:"visa", op:"regular_payment" },
+  { id:"163663795414", payerId:"1446814608", collectorId:"3166103110", date:"11/06/2026 17:33", status:"approved", detail:"accredited", amount:350, method:"visa", op:"regular_payment" },
+  { id:"163664278164", payerId:"1855696755", collectorId:"3166103110", date:"11/06/2026 17:19", status:"approved", detail:"accredited", amount:350, method:"visa", op:"regular_payment" },
+  { id:"163661495134", payerId:"1644991675", collectorId:"3166103110", date:"11/06/2026 17:15", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
   { id:"162835996923", payerId:"1408469065", collectorId:"3166103110", date:"11/06/2026 15:08", status:"approved", detail:"accredited", amount:35, method:"master", op:"regular_payment" },
   { id:"162836304531", payerId:"1621243879", collectorId:"3166103110", date:"11/06/2026 15:05", status:"approved", detail:"accredited", amount:35, method:"visa", op:"regular_payment" },
   { id:"162833533543", payerId:"3466150473", collectorId:"3166103110", date:"11/06/2026 14:57", status:"approved", detail:"accredited", amount:35, method:"visa", op:"regular_payment" },
@@ -489,7 +493,7 @@ const RAW = [
 ];
 
 const COLLECTOR_ID = "3166103110";
-const LAST_UPDATED = "11/06/2026 17:11";
+const LAST_UPDATED = "11/06/2026 18:11";
 const LAST_TRX     = RAW.length > 0 ? RAW[0].date : "-";
 const METHOD_COLORS = { master:"#3b82f6", visa:"#a855f7", amex:"#10b981" };
 const STATUS_COLORS = { approved:"#22c55e", rejected:"#ef4444", refunded:"#f59e0b" };
