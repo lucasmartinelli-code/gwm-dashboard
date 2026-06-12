@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/gwm-dashboard/static/js/main.cd7b56dc.js",
+    "main.js": "/gwm-dashboard/static/js/main.a364783f.js",
     "index.html": "/gwm-dashboard/index.html",
-    "main.cd7b56dc.js.map": "/gwm-dashboard/static/js/main.cd7b56dc.js.map"
+    "main.a364783f.js.map": "/gwm-dashboard/static/js/main.a364783f.js.map"
   },
   "entrypoints": [
-    "static/js/main.cd7b56dc.js"
+    "static/js/main.a364783f.js"
   ]
 }
